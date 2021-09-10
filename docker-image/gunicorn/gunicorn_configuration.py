@@ -7,9 +7,13 @@ loglevel = os.getenv("LOG_LEVEL", "info")
 accesslog = os.getenv("ACCESS_LOG", "-")
 errorlog = os.getenv("ERROR_LOG", "-")
 
+# Debugging
+# https://docs.gunicorn.org/en/stable/settings.html#debugging
+reload = bool(os.getenv("RELOAD", "False"))
+
 # Worker processes
 # https://docs.gunicorn.org/en/stable/settings.html#worker-processes
-workers = os.getenv("WORKERS", "1")
+workers = int(os.getenv("WORKERS", "1"))
 timeout = int(os.getenv("TIMEOUT", "30"))
 graceful_timeout = int(os.getenv("GRACEFUL_TIMEOUT", "30"))
 keepalive = int(os.getenv("KEEP_ALIVE", "2"))
@@ -24,12 +28,12 @@ worker_tmp_dir = "/dev/shm"
 bind = os.getenv("BIND", "0.0.0.0:80")
 
 log_data = {
-    "loglevel": loglevel,
-    "workers": workers,
     "bind": bind,
+    "workers": workers,
     "graceful_timeout": graceful_timeout,
     "timeout": timeout,
     "keepalive": keepalive,
+    "loglevel": loglevel,
     "errorlog": errorlog,
     "accesslog": accesslog,
 }

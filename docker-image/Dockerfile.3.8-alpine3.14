@@ -31,9 +31,9 @@ RUN apk add --no-cache \
         gcc \
         libressl-dev \
         musl-dev \
-        libffi-dev && \
-    curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python - && \
-    apk del \
+        libffi-dev \
+    && curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python - \
+    && apk del \
         curl \
         gcc \
         libressl-dev \
