@@ -31,7 +31,10 @@ RUN apt-get update \
     && apt-get install --no-install-recommends -y \
         build-essential \
         curl \
-    && curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python -
+    && curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python \
+    && apt-get purge --auto-remove -y \
+      build-essential \
+      curl
 
 COPY ./gunicorn/gunicorn_configuration.py ./gunicorn/start_gunicorn.sh /application_server/
 RUN chmod +x /application_server/start_gunicorn.sh
