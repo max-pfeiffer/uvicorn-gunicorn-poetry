@@ -9,12 +9,13 @@ COPY ./poetry.lock ./pyproject.toml /application_root/
 RUN poetry install --no-dev --no-root --no-interaction
 
 FROM base-image as development-image
-ENV LOG_LEVEL="debug" \
-    WORKERS="1" \
-    RELOAD="True"
+ENV WORKERS="1" \
+    RELOAD="True" \
+    LOG_LEVEL="debug"
+
+COPY --from=base-image $VIRTUAL_ENVIRONMENT_PATH $VIRTUAL_ENVIRONMENT_PATH
 
 # install [tool.poetry.dev-dependencies]
-COPY --from=base-image $VIRTUAL_ENVIRONMENT_PATH $VIRTUAL_ENVIRONMENT_PATH
 RUN poetry install --no-root --no-interaction
 
 COPY . /application_root/
