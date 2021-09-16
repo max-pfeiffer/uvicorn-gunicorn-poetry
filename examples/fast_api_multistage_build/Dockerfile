@@ -1,5 +1,5 @@
-ARG TAG=uvicorn-gunicorn-poetry:python3.8.12-slim-bullseye
-FROM ${TAG} as base-image
+ARG BASE_IMAGE_NAME_AND_TAG=uvicorn-gunicorn-poetry:python3.8.12-slim-bullseye
+FROM ${BASE_IMAGE_NAME_AND_TAG} as base-image
 
 WORKDIR /application_root
 
