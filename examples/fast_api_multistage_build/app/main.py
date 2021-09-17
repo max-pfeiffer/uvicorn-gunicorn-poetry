@@ -3,7 +3,7 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-HELLO_WORLD: str = "Hello World!"
+HELLO_WORLD: str = 'Hello World!'
 ITEMS: Dict[str, str] = {
     "1": "sausage",
     "2": "ham",

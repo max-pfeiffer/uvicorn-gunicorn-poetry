@@ -30,11 +30,13 @@ bind = os.getenv("BIND", "0.0.0.0:80")
 log_data = {
     "bind": bind,
     "workers": workers,
-    "graceful_timeout": graceful_timeout,
     "timeout": timeout,
+    "graceful_timeout": graceful_timeout,
     "keepalive": keepalive,
     "loglevel": loglevel,
     "errorlog": errorlog,
     "accesslog": accesslog,
+    "reload": reload,
+    "worker_tmp_dir": worker_tmp_dir,
 }
 print(json.dumps(log_data))

@@ -7,21 +7,20 @@ from docker.models.images import Image
 
 class DockerImage:
 
-    def __init__(self):
-        self.docker_client: docker.client = docker.from_env()
-
-        absolute_package_directory_path: str = \
+    def __init__(self, docker_client: docker.client):
+        self.docker_client: docker.client = docker_client
+        self.absolute_package_directory_path: str = \
             os.path.dirname(os.path.abspath(__file__))
-        absolute_project_root_directory: str = \
-            os.path.split(absolute_package_directory_path)[0]
-        self.absolute_docker_image_directory_path: str = \
-            os.path.join(absolute_project_root_directory, 'docker-image')
 
 
 class UvicornGunicornPoetryImage(DockerImage):
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, docker_client: docker.client):
+        super().__init__(docker_client)
+        absolute_project_root_directory: str = \
+            os.path.split(self.absolute_package_directory_path)[0]
+        self.absolute_docker_image_directory_path: str = \
+            os.path.join(absolute_project_root_directory, 'docker-image')
         self.image_name: str = 'uvicorn-gunicorn-poetry'
 
     def build(self, target_architecture: str) -> Image:
@@ -38,14 +37,20 @@ class UvicornGunicornPoetryImage(DockerImage):
 
 class FastApiMultistageImage(DockerImage):
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, docker_client: docker.client):
+        super().__init__(docker_client)
+        absolute_project_root_directory: str = \
+            os.path.split(self.absolute_package_directory_path)[0]
+        self.absolute_docker_image_directory_path: str = \
+            os.path.join(absolute_project_root_directory,
+                         'examples/fast_api_multistage_build')
         self.image_name: str = 'fast-api-multistage-build'
 
     def build(self,
               target_architecture: str,
               target: str) -> Image:
-        tag: str = '{}:{}'.format(self.image_name, target_architecture)
+        tag: str = \
+            '{}:{}-{}'.format(self.image_name, target_architecture, target)
         buildargs: Dict[str, str] = \
             {'BASE_IMAGE_NAME_AND_TAG': 'uvicorn-gunicorn-poetry:{}'
                 .format(target_architecture)}

@@ -1,8 +1,11 @@
 import argparse
-from images import UvicornGunicornPoetryImage, FastApiMultistageImage
 
 import docker
+from docker.models.containers import Container
 from docker.models.images import Image
+
+from build.containers import UvicornGunicornPoetryContainer
+from images import UvicornGunicornPoetryImage, FastApiMultistageImage
 
 docker_client: docker.client = docker.from_env()
 
@@ -34,10 +37,31 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.test:
-        base_image: Image = UvicornGunicornPoetryImage().build(args.target_architecture)
-        example_image_development: Image = FastApiMultistageImage().build(args.target_architecture, 'development-image')
+        base_image: Image = UvicornGunicornPoetryImage(docker_client)\
+            .build(args.target_architecture)
+        example_image_development: Image = FastApiMultistageImage()\
+            .build(args.target_architecture, 'development-image')
     else:
-        base_image: Image = UvicornGunicornPoetryImage().build(args.target_architecture)
+        UvicornGunicornPoetryImage(docker_client) \
+            .build('python3.8.12-slim-bullseye')
+        example_image_production: Image = \
+            FastApiMultistageImage(docker_client) \
+                .build('python3.8.12-slim-bullseye', 'production-image')
+
+        example_container: Container = \
+            docker_client.containers.run(example_image_production.tags[0],
+                                              detach=True)
+        uvicorn_gunicorn_container: UvicornGunicornPoetryContainer = \
+            UvicornGunicornPoetryContainer(example_container)
+        process_names = uvicorn_gunicorn_container.get_process_names()
+        print('process_names')
+        print(str(process_names))
+        gunicorn_config = uvicorn_gunicorn_container.get_config()
+        print('gunicorn_config')
+        print(str(gunicorn_config))
+
+        # base_image: Image = UvicornGunicornPoetryImage(docker_client)\
+        #    .build(args.target_architecture)
     print(str(args))
 
 

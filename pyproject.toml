@@ -11,6 +11,13 @@ python = "^3.8"
 [tool.poetry.dev-dependencies]
 pytest = "6.2.5"
 docker = "5.0.2"
+requests = "2.25.1"
+
+# https://docs.pytest.org/en/latest/reference/customize.html
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
