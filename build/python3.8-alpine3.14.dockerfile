@@ -39,3 +39,10 @@ RUN apk add --no-cache \
         libressl-dev \
         musl-dev \
         libffi-dev
+
+COPY gunicorn_configuration.py start_gunicorn.sh /application_server/
+RUN chmod +x /application_server/start_gunicorn.sh
+
+EXPOSE 80
+
+CMD ["/application_server/start_gunicorn.sh"]

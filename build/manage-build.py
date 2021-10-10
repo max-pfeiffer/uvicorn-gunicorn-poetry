@@ -4,7 +4,7 @@ import docker
 from docker.models.containers import Container
 from docker.models.images import Image
 
-from build.containers import UvicornGunicornPoetryContainer
+from tests.containers import UvicornGunicornPoetryContainer
 from images import UvicornGunicornPoetryImage, FastApiMultistageImage
 
 docker_client: docker.client = docker.from_env()

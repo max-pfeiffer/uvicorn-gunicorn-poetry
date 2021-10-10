@@ -17,10 +17,8 @@ class UvicornGunicornPoetryImage(DockerImage):
 
     def __init__(self, docker_client: docker.client):
         super().__init__(docker_client)
-        absolute_project_root_directory: str = \
-            os.path.split(self.absolute_package_directory_path)[0]
         self.absolute_docker_image_directory_path: str = \
-            os.path.join(absolute_project_root_directory, 'docker-image')
+            self.absolute_package_directory_path
         self.image_name: str = 'uvicorn-gunicorn-poetry'
 
     def build(self, target_architecture: str) -> Image:

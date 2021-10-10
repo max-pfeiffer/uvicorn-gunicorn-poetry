@@ -36,7 +36,7 @@ RUN apt-get update \
       build-essential \
       curl
 
-COPY gunicorn/gunicorn_configuration.py ./gunicorn/start_gunicorn.sh /application_server/
+COPY gunicorn_configuration.py start_gunicorn.sh /application_server/
 RUN chmod +x /application_server/start_gunicorn.sh
 
 EXPOSE 80

@@ -1,18 +1,14 @@
 import json
 import time
 
-import docker
 import requests
-from docker.errors import NotFound
 from docker.models.containers import Container
 from docker.models.images import Image
 
-from build.containers import UvicornGunicornPoetryContainer
+from build.gunicorn_configuration import DEFAULT_GUNICORN_CONFIG
 from build.images import UvicornGunicornPoetryImage, FastApiMultistageImage
-from tests.constants import TEST_CONTAINER_NAME, SLEEP_TIME, HELLO_WORLD, \
-    DEFAULT_GUNICORN_CONFIG
-
-docker_client = docker.client.from_env()
+from tests.constants import TEST_CONTAINER_NAME, SLEEP_TIME, HELLO_WORLD
+from tests.utils import UvicornGunicornPoetryContainer
 
 
 def verify_container(container: UvicornGunicornPoetryContainer) -> None:
@@ -32,14 +28,7 @@ def verify_container(container: UvicornGunicornPoetryContainer) -> None:
     assert config_data['worker_tmp_dir'] == DEFAULT_GUNICORN_CONFIG['worker_tmp_dir']
 
 
-def test_default_configuration() -> None:
-    try:
-        previous = docker_client.containers.get(TEST_CONTAINER_NAME)
-        previous.stop()
-        previous.remove()
-    except NotFound:
-        pass
-
+def test_default_configuration(docker_client) -> None:
     UvicornGunicornPoetryImage(docker_client) \
         .build('python3.8.12-slim-bullseye')
     test_image: Image = FastApiMultistageImage(docker_client)\
@@ -60,5 +49,3 @@ def test_default_configuration() -> None:
     test_container.start()
     time.sleep(SLEEP_TIME)
     verify_container(uvicorn_gunicorn_container)
-    test_container.stop()
-    test_container.remove()
