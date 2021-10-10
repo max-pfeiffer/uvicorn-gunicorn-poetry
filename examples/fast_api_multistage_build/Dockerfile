@@ -22,7 +22,6 @@ RUN poetry install --no-root --no-interaction
 COPY . /application_root/
 
 FROM base-image as production-image
-ENV WORKERS="2"
 
 COPY --from=base-image $VIRTUAL_ENVIRONMENT_PATH $VIRTUAL_ENVIRONMENT_PATH
 

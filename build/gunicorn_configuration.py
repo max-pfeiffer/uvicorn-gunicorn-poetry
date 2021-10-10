@@ -3,7 +3,7 @@ import json
 
 DEFAULT_GUNICORN_CONFIG = {
     'bind': '0.0.0.0:80',
-    'workers': 1,
+    'workers': 2,
     'timeout': 30,
     'graceful_timeout': 30,
     'keepalive': 2,
