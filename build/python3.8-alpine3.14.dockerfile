@@ -40,7 +40,7 @@ RUN apk add --no-cache \
         musl-dev \
         libffi-dev
 
-COPY gunicorn_configuration.py start_gunicorn.sh /application_server/
+COPY gunicorn_configuration.py ./scripts/start_gunicorn.sh /application_server/
 RUN chmod +x /application_server/start_gunicorn.sh
 
 EXPOSE 80

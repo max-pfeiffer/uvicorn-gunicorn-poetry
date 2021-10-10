@@ -5,14 +5,13 @@ import requests
 from docker.models.containers import Container
 from docker.models.images import Image
 
-from build.gunicorn_configuration import DEFAULT_GUNICORN_CONFIG
 from build.images import UvicornGunicornPoetryImage, FastApiMultistageImage
 from tests.constants import TEST_CONTAINER_NAME, SLEEP_TIME, HELLO_WORLD, \
     DEVELOPMENT_GUNICORN_CONFIG
-from tests.utils import UvicornGunicornPoetryContainer
+from tests.utils import UvicornGunicornPoetryContainerConfig
 
 
-def verify_container(container: UvicornGunicornPoetryContainer) -> None:
+def verify_container(container: UvicornGunicornPoetryContainerConfig) -> None:
     response = requests.get("http://127.0.0.1:8000")
     assert json.loads(response.text) == HELLO_WORLD
 
@@ -40,8 +39,8 @@ def test_default_configuration(docker_client) -> None:
                                      name=TEST_CONTAINER_NAME,
                                      ports={"80": "8000"},
                                      detach=True)
-    uvicorn_gunicorn_container: UvicornGunicornPoetryContainer = \
-        UvicornGunicornPoetryContainer(test_container)
+    uvicorn_gunicorn_container: UvicornGunicornPoetryContainerConfig = \
+        UvicornGunicornPoetryContainerConfig(test_container)
     time.sleep(SLEEP_TIME)
     verify_container(uvicorn_gunicorn_container)
     test_container.stop()

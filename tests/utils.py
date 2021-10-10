@@ -4,7 +4,7 @@ from typing import List, Dict, Any
 from docker.models.containers import Container
 
 
-class UvicornGunicornPoetryContainer:
+class UvicornGunicornPoetryContainerConfig:
 
     def __init__(self, container: Container):
         self.container: Container = container
