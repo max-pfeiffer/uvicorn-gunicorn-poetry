@@ -10,8 +10,10 @@ of this image can follow up on that.
 Any feedback is highly appreciated and will be considered.  
 
 ## Usage
-This image just provides a platform that you can use to build upon your own multistage builds. So it consequently does not contain an
-application itself. Please check out the example application on how to use that image and how to build a container efficiently.
+The image is publicly available on Docker Hub: [pfeiffermax/uvicorn-gunicorn-poetry](https://hub.docker.com/r/pfeiffermax/uvicorn-gunicorn-poetry)
+
+It just provides a platform that you can use to build upon your own multistage builds. So it consequently does not contain an
+application itself. Please check out the [example application](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/tree/master/examples/fast_api_multistage_build) on how to use that image and build a container efficiently.
 
 Please be aware that your application needs an application layout without src folder which is proposed in
 [fastapi-realworld-example-app](https://github.com/nsidnev/fastapi-realworld-example-app).
@@ -31,4 +33,10 @@ The application and test structure needs to be like that:
         ├── test_items.py
         └── test_root.py
 ```
+Please be aware that you need to provide a pyproject.toml file to specify your Python package dependencies for Poetry and configure
+dependencies like Pytest. Poetry dependencies must at least contain the following to work:
+* python = "^3.8"
+* gunicorn = "20.1.0"
+* uvicorn = "0.15.0"
 
+If your application uses FastAPI framework this needs to be added as well.
