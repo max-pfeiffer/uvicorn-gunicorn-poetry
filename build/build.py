@@ -56,6 +56,9 @@ def main() -> None:
                         username=args.username,
                         password=args.password)
 
+    # https://docs.docker.com/engine/reference/commandline/push/
+    # https://docs.docker.com/engine/reference/commandline/tag/
+    # https://docs.docker.com/engine/reference/commandline/image_tag/
     # There seems to be some problem with this call, docker_client is throwing "Internal Server Error ("invalid tag format")"
     for line in docker_client.images.push(DOCKER_REPOSITORY,
                                           tag=new_docker_image.tags[0],
