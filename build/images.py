@@ -52,7 +52,7 @@ class FastApiMultistageImage(DockerImage):
         tag: str = \
             f'{self.image_name}:{target_architecture}-{self.version_tag}'
         buildargs: Dict[str, str] = \
-            {'BASE_IMAGE_NAME_AND_TAG': f'uvicorn-gunicorn-poetry:{target_architecture}-{self.version_tag}'}
+            {'BASE_IMAGE_NAME_AND_TAG': f'pfeiffermax/uvicorn-gunicorn-poetry:{target_architecture}-{self.version_tag}'}
 
         image: Image = self.docker_client.images.build(
             path=self.absolute_docker_image_directory_path,

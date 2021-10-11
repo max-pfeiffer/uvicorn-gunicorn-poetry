@@ -1,4 +1,4 @@
-ARG BASE_IMAGE_NAME_AND_TAG=uvicorn-gunicorn-poetry:python3.8.12-slim-bullseye
+ARG BASE_IMAGE_NAME_AND_TAG=pfeiffermax/uvicorn-gunicorn-poetry:python3.8.12-slim-bullseye-2021-10-10
 FROM ${BASE_IMAGE_NAME_AND_TAG} as base-image
 
 WORKDIR /application_root
@@ -8,6 +8,17 @@ WORKDIR /application_root
 # see: https://python-poetry.org/docs/configuration/#virtualenvsin-project
 COPY ./poetry.lock ./pyproject.toml /application_root/
 RUN poetry install --no-dev --no-root --no-interaction
+
+FROM base-image as test-image
+ENV WORKERS="1" \
+    LOG_LEVEL="debug"
+
+COPY --from=base-image $VIRTUAL_ENVIRONMENT_PATH $VIRTUAL_ENVIRONMENT_PATH
+
+# install [tool.poetry.dev-dependencies]
+RUN poetry install --no-root --no-interaction
+
+COPY /app /tests /application_root/app/
 
 FROM base-image as development-image
 ENV WORKERS="1" \
