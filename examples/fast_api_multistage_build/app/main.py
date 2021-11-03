@@ -1,4 +1,5 @@
-from typing import Optional, Dict
+from typing import Dict
+
 from fastapi import FastAPI
 
 app = FastAPI()

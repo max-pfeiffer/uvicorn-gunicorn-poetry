@@ -36,9 +36,11 @@ RUN apt-get update \
       build-essential \
       curl
 
-COPY gunicorn_configuration.py ./scripts/start_gunicorn.sh ./scripts/test_entrypoint.sh /application_server/
+COPY gunicorn_configuration.py ./scripts/start_gunicorn.sh /application_server/
 RUN chmod +x /application_server/start_gunicorn.sh
-RUN chmod +x /application_server/test_entrypoint.sh
+
+COPY ./scripts/test_entrypoint.sh /entrypoints/
+RUN chmod +x /entrypoints/test_entrypoint.sh
 
 
 EXPOSE 80

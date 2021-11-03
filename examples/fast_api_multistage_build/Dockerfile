@@ -1,4 +1,4 @@
-ARG BASE_IMAGE_NAME_AND_TAG=pfeiffermax/uvicorn-gunicorn-poetry:python3.8.12-slim-bullseye-2021-10-10
+ARG BASE_IMAGE_NAME_AND_TAG=pfeiffermax/uvicorn-gunicorn-poetry:python3.8.12-slim-bullseye-2021-11-03
 FROM ${BASE_IMAGE_NAME_AND_TAG} as base-image
 
 WORKDIR /application_root
@@ -21,7 +21,12 @@ RUN poetry install --no-root --no-interaction
 COPY /app /application_root/app/
 COPY /tests /application_root/tests/
 
-ENTRYPOINT /application_server/test_entrypoint.sh $0 $@
+ENTRYPOINT /entrypoints/test_entrypoint.sh $0 $@
+
+# image for running pep8 checks
+FROM test-base-image as pep8-test-image
+
+CMD ["--flake8", "/application_root/app"]
 
 # image for running unit tests
 FROM test-base-image as unit-test-image
