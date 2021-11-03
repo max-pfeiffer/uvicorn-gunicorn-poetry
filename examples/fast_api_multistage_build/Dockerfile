@@ -9,7 +9,7 @@ WORKDIR /application_root
 COPY ./poetry.lock ./pyproject.toml /application_root/
 RUN poetry install --no-dev --no-root --no-interaction
 
-FROM base-image as test-image
+FROM base-image as test-base-image
 ENV WORKERS="1" \
     LOG_LEVEL="debug"
 
@@ -18,7 +18,18 @@ COPY --from=base-image $VIRTUAL_ENVIRONMENT_PATH $VIRTUAL_ENVIRONMENT_PATH
 # install [tool.poetry.dev-dependencies]
 RUN poetry install --no-root --no-interaction
 
-COPY /app /tests /application_root/app/
+COPY /app /application_root/app/
+COPY /tests /application_root/tests/
+
+ENTRYPOINT /application_server/test_entrypoint.sh $0 $@
+
+# image for running unit tests
+FROM test-base-image as unit-test-image
+
+# You need to use pytest-cov as pytest plugin. Makes life very simple.
+# tests directory is configured in pyproject.toml
+# https://github.com/pytest-dev/pytest-cov
+CMD ["--cov=app", "--cov-report=xml:/test_coverage_reports/unit_tests_coverage.xml"]
 
 FROM base-image as development-image
 ENV WORKERS="1" \
