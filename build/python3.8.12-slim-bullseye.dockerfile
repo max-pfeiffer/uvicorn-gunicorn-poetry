@@ -39,9 +39,9 @@ RUN apt-get update \
 COPY gunicorn_configuration.py ./scripts/start_gunicorn.sh /application_server/
 RUN chmod +x /application_server/start_gunicorn.sh
 
-COPY ./scripts/test_entrypoint.sh /entrypoints/
-RUN chmod +x /entrypoints/test_entrypoint.sh
-
+COPY ./scripts/pytest_entrypoint.sh ./scripts/black_entrypoint.sh /entrypoints/
+RUN chmod +x /entrypoints/pytest_entrypoint.sh
+RUN chmod +x /entrypoints/black_entrypoint.sh
 
 EXPOSE 80
 

@@ -21,15 +21,17 @@ RUN poetry install --no-root --no-interaction
 COPY /app /application_root/app/
 COPY /tests /application_root/tests/
 
-ENTRYPOINT /entrypoints/test_entrypoint.sh $0 $@
-
 # image for running pep8 checks
-FROM test-base-image as pep8-test-image
+FROM test-base-image as black-test-image
 
-CMD ["--flake8", "/application_root/app"]
+ENTRYPOINT /entrypoints/black_entrypoint.sh $0 $@
+
+CMD ["--check", " --line-length 80", "app"]
 
 # image for running unit tests
 FROM test-base-image as unit-test-image
+
+ENTRYPOINT /entrypoints/pytest_entrypoint.sh $0 $@
 
 # You need to use pytest-cov as pytest plugin. Makes life very simple.
 # tests directory is configured in pyproject.toml

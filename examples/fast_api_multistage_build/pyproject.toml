@@ -14,11 +14,8 @@ fastapi = "0.68.1"
 [tool.poetry.dev-dependencies]
 pytest = "6.2.5"
 pytest-cov = "3.0.0"
-pytest-flake8 = "1.0.7"
 coverage = "6.1.1"
-# There is a problem using version flake8 v4.0.1 in conjunction with the
-# latest version of pytest-flake8
-flake8 = "3.9.2"
+black = "21.10b0"
 requests = "2.25.1"
 
 # https://docs.pytest.org/en/latest/reference/customize.html

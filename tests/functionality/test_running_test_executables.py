@@ -10,7 +10,7 @@ def test_running_pep8_test_image(docker_client) -> None:
     UvicornGunicornPoetryImage(docker_client) \
         .build('python3.8.12-slim-bullseye')
     test_image: Image = FastApiMultistageImage(docker_client) \
-        .build('python3.8.12-slim-bullseye', 'pep8-test-image')
+        .build('python3.8.12-slim-bullseye', 'black-test-image')
 
     api_response: Dict = \
         docker_client.containers.run(test_image.tags[0],

@@ -4,12 +4,8 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-HELLO_WORLD: str = 'Hello World!'
-ITEMS: Dict[str, str] = {
-    "1": "sausage",
-    "2": "ham",
-    "3": "tofu"
-}
+HELLO_WORLD: str = "Hello World!"
+ITEMS: Dict[str, str] = {"1": "sausage", "2": "ham", "3": "tofu"}
 
 
 @app.get("/")
