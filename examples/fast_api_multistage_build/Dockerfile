@@ -26,7 +26,7 @@ FROM test-base-image as black-test-image
 
 ENTRYPOINT /entrypoints/black_entrypoint.sh $0 $@
 
-CMD ["--check", " --line-length 80", "app"]
+CMD ["--target-version py39", "--check", " --line-length 80", "app"]
 
 # image for running unit tests
 FROM test-base-image as unit-test-image

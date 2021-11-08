@@ -3,7 +3,7 @@ import argparse
 import docker
 from docker.models.images import Image
 
-from constants import DOCKER_REPOSITORY
+from constants import DOCKER_REPOSITORY, TARGET_ARCHITECTURE
 from images import UvicornGunicornPoetryImage
 
 docker_client: docker.client = docker.from_env()
@@ -27,8 +27,8 @@ def init_argparse() -> argparse.ArgumentParser:
     parser.add_argument(
         "--target-architecture",
         required=False,
-        choices=['python3.8.12-slim-bullseye', 'python3.8-alpine3.14'],
-        default='python3.8.12-slim-bullseye',
+        choices=TARGET_ARCHITECTURE,
+        default=TARGET_ARCHITECTURE[0],
         help='Target build architecture'
     )
     return parser

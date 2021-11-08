@@ -1,6 +1,6 @@
 # References:
 # https://hub.docker.com/_/python
-FROM python:3.8.12-slim-bullseye
+FROM python:3.9.7-slim-bullseye
 
 # References:
 # https://docs.python.org/3/using/cmdline.html#envvar-PYTHONUNBUFFERED

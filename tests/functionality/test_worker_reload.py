@@ -1,5 +1,6 @@
 import time
 
+from build.constants import TARGET_ARCHITECTURE
 from build.images import UvicornGunicornPoetryImage, FastApiMultistageImage
 from tests.constants import TEST_CONTAINER_NAME, SLEEP_TIME
 from docker.models.containers import Container
@@ -8,9 +9,9 @@ from docker.models.images import Image
 
 def test_worker_reload(docker_client) -> None:
     UvicornGunicornPoetryImage(docker_client) \
-        .build('python3.8.12-slim-bullseye')
+        .build(TARGET_ARCHITECTURE[0])
     test_image: Image = FastApiMultistageImage(docker_client) \
-        .build('python3.8.12-slim-bullseye', 'development-image')
+        .build(TARGET_ARCHITECTURE[0], 'development-image')
 
     test_container: Container = \
         docker_client.containers.run(test_image.tags[0],
