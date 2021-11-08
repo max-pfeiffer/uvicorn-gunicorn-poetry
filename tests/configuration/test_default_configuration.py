@@ -17,31 +17,39 @@ def verify_container(container: UvicornGunicornPoetryContainerConfig) -> None:
     assert json.loads(response.text) == HELLO_WORLD
 
     config_data = container.get_config()
-    assert config_data['bind'] == DEFAULT_GUNICORN_CONFIG['bind']
-    assert config_data['workers'] == DEFAULT_GUNICORN_CONFIG['workers']
-    assert config_data['timeout'] == DEFAULT_GUNICORN_CONFIG['timeout']
-    assert config_data['graceful_timeout'] == DEFAULT_GUNICORN_CONFIG['graceful_timeout']
-    assert config_data['keepalive'] == DEFAULT_GUNICORN_CONFIG['keepalive']
-    assert config_data['loglevel'] == DEFAULT_GUNICORN_CONFIG['loglevel']
-    assert config_data['accesslog'] == DEFAULT_GUNICORN_CONFIG['accesslog']
-    assert config_data['errorlog'] == DEFAULT_GUNICORN_CONFIG['errorlog']
-    assert config_data['reload'] == DEFAULT_GUNICORN_CONFIG['reload']
-    assert config_data['worker_tmp_dir'] == DEFAULT_GUNICORN_CONFIG['worker_tmp_dir']
+    assert config_data["bind"] == DEFAULT_GUNICORN_CONFIG["bind"]
+    assert config_data["workers"] == DEFAULT_GUNICORN_CONFIG["workers"]
+    assert config_data["timeout"] == DEFAULT_GUNICORN_CONFIG["timeout"]
+    assert (
+        config_data["graceful_timeout"]
+        == DEFAULT_GUNICORN_CONFIG["graceful_timeout"]
+    )
+    assert config_data["keepalive"] == DEFAULT_GUNICORN_CONFIG["keepalive"]
+    assert config_data["loglevel"] == DEFAULT_GUNICORN_CONFIG["loglevel"]
+    assert config_data["accesslog"] == DEFAULT_GUNICORN_CONFIG["accesslog"]
+    assert config_data["errorlog"] == DEFAULT_GUNICORN_CONFIG["errorlog"]
+    assert config_data["reload"] == DEFAULT_GUNICORN_CONFIG["reload"]
+    assert (
+        config_data["worker_tmp_dir"]
+        == DEFAULT_GUNICORN_CONFIG["worker_tmp_dir"]
+    )
 
 
 def test_default_configuration(docker_client) -> None:
-    UvicornGunicornPoetryImage(docker_client) \
-        .build(TARGET_ARCHITECTURE[0])
-    test_image: Image = FastApiMultistageImage(docker_client)\
-        .build(TARGET_ARCHITECTURE[0], 'production-image')
+    UvicornGunicornPoetryImage(docker_client).build(TARGET_ARCHITECTURE[0])
+    test_image: Image = FastApiMultistageImage(docker_client).build(
+        TARGET_ARCHITECTURE[0], "production-image"
+    )
 
-    test_container: Container = \
-        docker_client.containers.run(test_image.tags[0],
-                                     name=TEST_CONTAINER_NAME,
-                                     ports={"80": "8000"},
-                                     detach=True)
-    uvicorn_gunicorn_container: UvicornGunicornPoetryContainerConfig = \
+    test_container: Container = docker_client.containers.run(
+        test_image.tags[0],
+        name=TEST_CONTAINER_NAME,
+        ports={"80": "8000"},
+        detach=True,
+    )
+    uvicorn_gunicorn_container: UvicornGunicornPoetryContainerConfig = (
         UvicornGunicornPoetryContainerConfig(test_container)
+    )
     time.sleep(SLEEP_TIME)
     verify_container(uvicorn_gunicorn_container)
     test_container.stop()

@@ -5,7 +5,7 @@ from docker.errors import NotFound
 from tests.constants import TEST_CONTAINER_NAME
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def docker_client() -> docker.client:
     return docker.client.from_env()
 
