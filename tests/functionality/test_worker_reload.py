@@ -1,14 +1,17 @@
 import time
 
-from build.constants import TARGET_ARCHITECTURE
-from build.images import UvicornGunicornPoetryImage, FastApiMultistageImage
-from tests.constants import TEST_CONTAINER_NAME, SLEEP_TIME
+import pytest
 from docker.models.containers import Container
 from docker.models.images import Image
 
+from build.constants import TARGET_ARCHITECTURE
+from build.images import UvicornGunicornPoetryImage, FastApiMultistageImage
+from tests.constants import TEST_CONTAINER_NAME, SLEEP_TIME
 
-def test_worker_reload(docker_client) -> None:
-    UvicornGunicornPoetryImage(docker_client).build(TARGET_ARCHITECTURE[0])
+
+@pytest.mark.parametrize("target_architecture", TARGET_ARCHITECTURE)
+def test_worker_reload(docker_client, target_architecture) -> None:
+    UvicornGunicornPoetryImage(docker_client).build(target_architecture)
     test_image: Image = FastApiMultistageImage(docker_client).build(
         TARGET_ARCHITECTURE[0], "development-image"
     )

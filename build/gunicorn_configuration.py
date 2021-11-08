@@ -34,7 +34,7 @@ keepalive = int(os.getenv("KEEP_ALIVE", DEFAULT_GUNICORN_CONFIG['keepalive']))
 # Server machanics
 # https://docs.gunicorn.org/en/stable/settings.html?highlight=worker_tmp_dir#worker-tmp-dir
 # This is set to /dev/shm to speed up the startup of workers by using a in memory file system
-worker_tmp_dir = DEFAULT_GUNICORN_CONFIG['worker_tmp_dir']
+worker_tmp_dir = str(os.getenv("WORKER_TMP_DIR", DEFAULT_GUNICORN_CONFIG['worker_tmp_dir']))
 
 # Server socket
 # https://docs.gunicorn.org/en/stable/settings.html?highlight=bind#bind

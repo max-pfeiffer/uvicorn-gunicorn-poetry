@@ -1,6 +1,7 @@
 import json
 import time
 
+import pytest
 import requests
 from docker.models.containers import Container
 from docker.models.images import Image
@@ -35,8 +36,9 @@ def verify_container(container: UvicornGunicornPoetryContainerConfig) -> None:
     )
 
 
-def test_default_configuration(docker_client) -> None:
-    UvicornGunicornPoetryImage(docker_client).build(TARGET_ARCHITECTURE[0])
+@pytest.mark.parametrize("target_architecture", TARGET_ARCHITECTURE)
+def test_default_configuration(docker_client, target_architecture) -> None:
+    UvicornGunicornPoetryImage(docker_client).build(target_architecture)
     test_image: Image = FastApiMultistageImage(docker_client).build(
         TARGET_ARCHITECTURE[0], "production-image"
     )
