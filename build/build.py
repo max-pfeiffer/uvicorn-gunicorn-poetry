@@ -17,6 +17,7 @@ def init_argparse() -> argparse.ArgumentParser:
     parser.add_argument(
         "--username",
         required=False,
+        default="pfeiffermax",
         help='Username for public Docker repository'
     )
     parser.add_argument(
@@ -37,7 +38,6 @@ def init_argparse() -> argparse.ArgumentParser:
 def main() -> None:
     parser = init_argparse()
     args = parser.parse_args()
-    print(str(args))
 
     new_uvicorn_gunicorn_poetry_image: UvicornGunicornPoetryImage = UvicornGunicornPoetryImage(docker_client)
 
@@ -49,19 +49,13 @@ def main() -> None:
             docker_client.images.remove(tag, force=True)
 
     new_docker_image: Image = new_uvicorn_gunicorn_poetry_image.build(args.target_architecture)
-    print('New tags:')
-    print(str(new_docker_image.tags))
-
-    docker_client.login(registry='https://index.docker.io/v1/',
-                        username=args.username,
-                        password=args.password)
 
     # https://docs.docker.com/engine/reference/commandline/push/
     # https://docs.docker.com/engine/reference/commandline/tag/
     # https://docs.docker.com/engine/reference/commandline/image_tag/
-    # There seems to be some problem with this call, docker_client is throwing "Internal Server Error ("invalid tag format")"
+    docker_client.login(username=args.username, password=args.password)
     for line in docker_client.images.push(DOCKER_REPOSITORY,
-                                          tag=new_docker_image.tags[0],
+                                          tag=new_uvicorn_gunicorn_poetry_image.image_tag,
                                           stream=True,
                                           decode=True):
         print(line)
