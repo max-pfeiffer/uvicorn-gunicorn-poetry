@@ -13,7 +13,7 @@ from tests.constants import TEST_CONTAINER_NAME, SLEEP_TIME
 def test_worker_reload(docker_client, target_architecture) -> None:
     UvicornGunicornPoetryImage(docker_client).build(target_architecture)
     test_image: Image = FastApiMultistageImage(docker_client).build(
-        TARGET_ARCHITECTURE[0], "development-image"
+        target_architecture, "development-image"
     )
 
     test_container: Container = docker_client.containers.run(

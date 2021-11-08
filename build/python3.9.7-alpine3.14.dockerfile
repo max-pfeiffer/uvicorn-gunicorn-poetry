@@ -21,7 +21,7 @@ ENV PYTHONUNBUFFERED=1 \
     POETRY_HOME="/opt/poetry" \
     POETRY_VIRTUALENVS_IN_PROJECT=true \
     POETRY_NO_INTERACTION=1 \
-    VIRTUAL_ENVIRONMENT_PATH="/application/.venv"
+    VIRTUAL_ENVIRONMENT_PATH="/application_root/.venv"
 
 ENV PATH="$POETRY_HOME/bin:$VIRTUAL_ENVIRONMENT_PATH/bin:$PATH"
 
@@ -42,6 +42,10 @@ RUN apk add --no-cache \
 
 COPY gunicorn_configuration.py ./scripts/start_gunicorn.sh /application_server/
 RUN chmod +x /application_server/start_gunicorn.sh
+
+COPY ./scripts/pytest_entrypoint.sh ./scripts/black_entrypoint.sh /entrypoints/
+RUN chmod +x /entrypoints/pytest_entrypoint.sh
+RUN chmod +x /entrypoints/black_entrypoint.sh
 
 EXPOSE 80
 

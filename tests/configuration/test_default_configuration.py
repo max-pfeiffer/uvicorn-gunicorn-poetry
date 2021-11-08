@@ -40,7 +40,7 @@ def verify_container(container: UvicornGunicornPoetryContainerConfig) -> None:
 def test_default_configuration(docker_client, target_architecture) -> None:
     UvicornGunicornPoetryImage(docker_client).build(target_architecture)
     test_image: Image = FastApiMultistageImage(docker_client).build(
-        TARGET_ARCHITECTURE[0], "production-image"
+        target_architecture, "production-image"
     )
 
     test_container: Container = docker_client.containers.run(
