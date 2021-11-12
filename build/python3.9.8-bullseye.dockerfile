@@ -1,6 +1,6 @@
 # References:
 # https://hub.docker.com/_/python
-FROM python:3.9.7-alpine3.14
+FROM python:3.9.8-bullseye
 
 # References:
 # https://docs.python.org/3/using/cmdline.html#envvar-PYTHONUNBUFFERED
@@ -21,24 +21,20 @@ ENV PYTHONUNBUFFERED=1 \
     POETRY_HOME="/opt/poetry" \
     POETRY_VIRTUALENVS_IN_PROJECT=true \
     POETRY_NO_INTERACTION=1 \
+    PYTHONPATH=/application_root \
     VIRTUAL_ENVIRONMENT_PATH="/application_root/.venv"
 
 ENV PATH="$POETRY_HOME/bin:$VIRTUAL_ENVIRONMENT_PATH/bin:$PATH"
 
 # https://python-poetry.org/docs/#osx--linux--bashonwindows-install-instructions
-RUN apk add --no-cache \
+RUN apt-get update \
+    && apt-get install --no-install-recommends -y \
+        build-essential \
         curl \
-        gcc \
-        libressl-dev \
-        musl-dev \
-        libffi-dev \
-    && curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python - \
-    && apk del \
-        curl \
-        gcc \
-        libressl-dev \
-        musl-dev \
-        libffi-dev
+    && curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python - \
+    && apt-get purge --auto-remove -y \
+      build-essential \
+      curl
 
 COPY gunicorn_configuration.py ./scripts/start_gunicorn.sh /application_server/
 RUN chmod +x /application_server/start_gunicorn.sh
