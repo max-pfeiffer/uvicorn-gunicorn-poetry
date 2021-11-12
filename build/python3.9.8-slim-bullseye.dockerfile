@@ -1,6 +1,6 @@
 # References:
 # https://hub.docker.com/_/python
-FROM python:3.9.7-slim-bullseye
+FROM python:3.9.8-slim-bullseye
 
 # References:
 # https://docs.python.org/3/using/cmdline.html#envvar-PYTHONUNBUFFERED
@@ -17,7 +17,7 @@ ENV PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100 \
-    POETRY_VERSION=1.1.8 \
+    POETRY_VERSION=1.1.11 \
     POETRY_HOME="/opt/poetry" \
     POETRY_VIRTUALENVS_IN_PROJECT=true \
     POETRY_NO_INTERACTION=1 \

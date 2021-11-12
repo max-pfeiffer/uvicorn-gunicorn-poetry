@@ -36,7 +36,7 @@ The application and test structure needs to be like that:
 ```
 Please be aware that you need to provide a pyproject.toml file to specify your Python package dependencies for Poetry and configure
 dependencies like Pytest. Poetry dependencies must at least contain the following to work:
-* python = "3.9.7"
+* python = "3.9.8"
 * gunicorn = "20.1.0"
 * uvicorn = "0.15.0"
 
@@ -44,9 +44,11 @@ If your application uses FastAPI framework this needs to be added as well:
 * fastapi = "0.70.0"
 
 ## Image Features
-1. Different architectures: currently only Python v3.9.7, Debian-slim and Alpine images are supported
-2. Poetry is available as dependency management tool
-3. Additional entrypoints for [pytest](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/blob/master/build/scripts/pytest_entrypoint.sh)
+1. Supported architectures: currently only Python v3.9.8, Debian or Debian-slim
+2. Poetry is available as Python package dependency management tool
+3. A virtual environment for the application and application server
+4. Configuration of Gunicorn through environment variables
+5. Additional entrypoints for [pytest](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/blob/master/build/scripts/pytest_entrypoint.sh)
 and [black](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/blob/master/build/scripts/black_entrypoint.sh) which can be used in
 multi stage builds for building docker executables 
 

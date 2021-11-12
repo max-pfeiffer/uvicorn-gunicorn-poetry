@@ -63,6 +63,7 @@ def main() -> None:
         decode=True,
     ):
         print(line)
+    docker_client.close()
 
 
 if __name__ == "__main__":

@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "fast_api_multistage_build"
 version = "0.1.0"
-description = ""
+description = "Example app for testing and demonstrating uvicorn-gunicorn-poetry docker image."
 authors = ["Max Pfeiffer <max@maxpfeiffer.ch>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "3.9.7"
+python = "3.9.8"
 gunicorn = "20.1.0"
 uvicorn = "0.15.0"
 fastapi = "0.70.0"
