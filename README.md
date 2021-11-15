@@ -43,6 +43,10 @@ dependencies like Pytest. Poetry dependencies must at least contain the followin
 If your application uses FastAPI framework this needs to be added as well:
 * fastapi = "0.70.0"
 
+**IMPORTANT:** make sure you have a [.dockerignore file](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/blob/master/examples/fast_api_multistage_build/.dockerignore)
+in your application root which excludes your local virtual environment in .venv! Otherwise you will have an issue activating that virtual
+environment when running the container.
+
 ## Image Features
 1. Supported architectures: currently only Python v3.9.8, Debian or Debian-slim
 2. Poetry is available as Python package dependency management tool
