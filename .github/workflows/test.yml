@@ -18,3 +18,5 @@ jobs:
           poetry-version: 1.1.11
       - name: Install dependencies
         run: poetry install --no-root
+      - name: Run all tests with pytest
+        run: pytest
