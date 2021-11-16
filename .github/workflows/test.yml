@@ -22,6 +22,6 @@ jobs:
           poetry install --no-root
       - name: Run all tests with pytest
         run: |
-          export
           source .venv/bin/activate
+          export DOCKER_BUILDKIT=1
           pytest tests/configuration/test_default_configuration.py
