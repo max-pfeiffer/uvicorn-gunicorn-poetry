@@ -17,7 +17,9 @@ jobs:
         with:
           poetry-version: 1.1.11
       - name: Install dependencies
-        run: poetry install --no-root
+        run: |
+          poetry config virtualenvs.in-project true
+          poetry install --no-root
       - name: Run all tests with pytest
         run: |
           source .venv/bin/activate
