@@ -23,5 +23,5 @@ jobs:
       - name: Run all tests with pytest
         run: |
           docker version
-#         source .venv/bin/activate
-#         pytest
+          source .venv/bin/activate
+          pytest tests/configuration/test_default_configuration.py

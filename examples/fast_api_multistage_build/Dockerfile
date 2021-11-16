@@ -1,4 +1,4 @@
-ARG BASE_IMAGE_NAME_AND_TAG=pfeiffermax/uvicorn-gunicorn-poetry:python3.9.8-slim-bullseye-2021-11-08
+ARG BASE_IMAGE_NAME_AND_TAG=pfeiffermax/uvicorn-gunicorn-poetry:python3.9.8-slim-bullseye-2021-11-15
 FROM ${BASE_IMAGE_NAME_AND_TAG} as base-image
 
 WORKDIR /application_root
