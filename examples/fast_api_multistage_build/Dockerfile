@@ -54,4 +54,6 @@ FROM base-image as production-image
 
 COPY --from=base-image $VIRTUAL_ENVIRONMENT_PATH $VIRTUAL_ENVIRONMENT_PATH
 
+RUN true
+
 COPY /app /application_root/app/
