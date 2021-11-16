@@ -22,5 +22,6 @@ jobs:
           poetry install --no-root
       - name: Run all tests with pytest
         run: |
+          export
           source .venv/bin/activate
           pytest tests/configuration/test_default_configuration.py

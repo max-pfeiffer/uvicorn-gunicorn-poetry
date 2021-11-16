@@ -54,6 +54,11 @@ FROM base-image as production-image
 
 COPY --from=base-image $VIRTUAL_ENVIRONMENT_PATH $VIRTUAL_ENVIRONMENT_PATH
 
+# There is a bug with multistage builds in GitHub Actions
+# Adding this run statement fixes the issue
+# See: https://github.com/moby/moby/issues/37965
+# Will also check if I can fix that annoying issue with some tweaks to build args
+# see: https://gist.github.com/UrsaDK/f90c9632997a70cfe2a6df2797731ac8
 RUN true
 
 COPY /app /application_root/app/
