@@ -54,11 +54,11 @@ FROM base-image as production-image
 
 COPY --from=base-image $VIRTUAL_ENVIRONMENT_PATH $VIRTUAL_ENVIRONMENT_PATH
 
-# This run statement fixes an issue while running the tests with GitHub Actions.
-# Test work reliable locally on my machine or running GitHub Actions using act.
+# This RUN statement fixes an issue while running the tests with GitHub Actions.
+# Tests work reliable locally on my machine or running GitHub Actions using act.
 # There is a bug with multistage builds in GitHub Actions which I can also reliable reproduce
 # see: https://github.com/moby/moby/issues/37965
-# Will also check if I can fix that annoying issue with some tweaks to build args
+# Will also check if I can fix that annoying issue with some tweaks to docker build args
 # see: https://gist.github.com/UrsaDK/f90c9632997a70cfe2a6df2797731ac8
 RUN true
 

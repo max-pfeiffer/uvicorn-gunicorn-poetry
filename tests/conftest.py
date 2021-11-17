@@ -25,15 +25,15 @@ def prepare_docker_env(docker_client) -> None:
         UvicornGunicornPoetryImage(docker_client)
     )
     for old_image in docker_client.images.list(
-            uvicorn_gunicorn_poetry_image.image_name
+        uvicorn_gunicorn_poetry_image.image_name
     ):
         for tag in old_image.tags:
             docker_client.images.remove(tag, force=True)
-    fast_api_multistage_image: FastApiMultistageImage = (
-        FastApiMultistageImage(docker_client)
+    fast_api_multistage_image: FastApiMultistageImage = FastApiMultistageImage(
+        docker_client
     )
     for old_image in docker_client.images.list(
-            fast_api_multistage_image.image_name
+        fast_api_multistage_image.image_name
     ):
         for tag in old_image.tags:
             docker_client.images.remove(tag, force=True)
@@ -52,15 +52,15 @@ def prepare_docker_env(docker_client) -> None:
         UvicornGunicornPoetryImage(docker_client)
     )
     for old_image in docker_client.images.list(
-            uvicorn_gunicorn_poetry_image.image_name
+        uvicorn_gunicorn_poetry_image.image_name
     ):
         for tag in old_image.tags:
             docker_client.images.remove(tag, force=True)
-    fast_api_multistage_image: FastApiMultistageImage = (
-        FastApiMultistageImage(docker_client)
+    fast_api_multistage_image: FastApiMultistageImage = FastApiMultistageImage(
+        docker_client
     )
     for old_image in docker_client.images.list(
-            fast_api_multistage_image.image_name
+        fast_api_multistage_image.image_name
     ):
         for tag in old_image.tags:
             docker_client.images.remove(tag, force=True)
