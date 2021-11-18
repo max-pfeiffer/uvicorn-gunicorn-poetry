@@ -69,26 +69,48 @@ if you would like to do a deep dive. Following environment variables are support
 * warning
 * error
 * critical
+ 
+**default:** `info`
 
 `ACCESS_LOG` : The Access log file to write to.
 
+**default:** `-`
+
 `ERROR_LOG` : The Error log file to write to.  
+
+**default:** `-`
 
 ### [Debugging](https://docs.gunicorn.org/en/stable/settings.html#debugging)
 `RELOAD` : Restart workers when code changes.
 
+**default:** `False`
+
 ### [Worker processes](https://docs.gunicorn.org/en/stable/settings.html#worker-processes)
-`WORKERS` : The number of worker processes for handling requests.
+`WORKERS` : The number of worker processes for handling requests. By default this is set to one
+worker as this image is meant to be used on a production grade Kubernetes environment. There you
+have usually monitoring data exported to Prometheus which will not work properly with multiple workers.   
+
+**default:** `1`
 
 `TIMEOUT` : Workers silent for more than this many seconds are killed and restarted.
 
+**default:** `30`
+
 `GRACEFUL_TIMEOUT` : Timeout for graceful workers restart.
 
+**default:** `30`
+
 `KEEP_ALIVE` : The number of seconds to wait for requests on a Keep-Alive connection.
+
+**default:** `2`
 
 ### [Server machanics](https://docs.gunicorn.org/en/stable/settings.html?highlight=worker_tmp_dir#worker-tmp-dir)
 `WORKER_TMP_DIR` : A directory to use for the worker heartbeat temporary file.
 By default this is set to /dev/shm to speed up the startup of workers by using a in memory file system
 
+**default:** `/dev/shm`
+
 ### [Server socket](https://docs.gunicorn.org/en/stable/settings.html?highlight=bind#bind)
 `BIND` : The socket to bind.
+
+**default:** `0.0.0.0:80`

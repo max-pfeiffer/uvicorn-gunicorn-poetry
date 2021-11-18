@@ -2,6 +2,8 @@
 # https://hub.docker.com/_/python
 FROM python:3.9.7-bullseye
 
+LABEL maintainer="Max Pfeiffer <max@maxpfeiffer.ch>"
+
 # References:
 # https://docs.python.org/3/using/cmdline.html#envvar-PYTHONUNBUFFERED
 # https://docs.python.org/3/using/cmdline.html#envvar-PYTHONDONTWRITEBYTECODE
