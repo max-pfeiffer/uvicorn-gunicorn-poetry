@@ -7,7 +7,7 @@ WORKDIR /application_root
 # this will install virtual environment into /.venv because of POETRY_VIRTUALENVS_IN_PROJECT=true
 # see: https://python-poetry.org/docs/configuration/#virtualenvsin-project
 COPY ./poetry.lock ./pyproject.toml /application_root/
-RUN poetry install --no-dev --no-root
+RUN poetry install --no-interaction --no-root --no-dev
 
 FROM base-image as test-base-image
 ENV WORKERS="1" \
@@ -16,7 +16,7 @@ ENV WORKERS="1" \
 COPY --from=base-image $VIRTUAL_ENVIRONMENT_PATH $VIRTUAL_ENVIRONMENT_PATH
 
 # install [tool.poetry.dev-dependencies]
-RUN poetry install --no-root
+RUN poetry install --no-interaction --no-root
 
 COPY /app /application_root/app/
 COPY /tests /application_root/tests/
@@ -46,7 +46,7 @@ ENV WORKERS="1" \
 COPY --from=base-image $VIRTUAL_ENVIRONMENT_PATH $VIRTUAL_ENVIRONMENT_PATH
 
 # install [tool.poetry.dev-dependencies]
-RUN poetry install --no-root
+RUN poetry install --no-interaction --no-root
 
 COPY . /application_root/
 

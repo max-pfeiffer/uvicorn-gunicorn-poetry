@@ -1,6 +1,7 @@
-# References:
+# References: using official Python images
 # https://hub.docker.com/_/python
-FROM python:3.9.7-slim-bullseye
+ARG OFFICIAL_PYTHON_IMAGE
+FROM ${OFFICIAL_PYTHON_IMAGE}
 
 LABEL maintainer="Max Pfeiffer <max@maxpfeiffer.ch>"
 
@@ -22,7 +23,6 @@ ENV PYTHONUNBUFFERED=1 \
     POETRY_VERSION=1.1.11 \
     POETRY_HOME="/opt/poetry" \
     POETRY_VIRTUALENVS_IN_PROJECT=true \
-    POETRY_NO_INTERACTION=1 \
     PYTHONPATH=/application_root \
     VIRTUAL_ENVIRONMENT_PATH="/application_root/.venv"
 

@@ -5,7 +5,7 @@ from typing import Dict
 import docker
 from docker.models.images import Image
 
-from build.constants import DOCKER_REPOSITORY
+from build.constants import DOCKER_REPOSITORY, BASE_IMAGES
 
 
 class DockerImage:
@@ -32,13 +32,17 @@ class UvicornGunicornPoetryImage(DockerImage):
         self.image_name = DOCKER_REPOSITORY
 
     def build(self, target_architecture: str) -> Image:
-        dockerfile: str = f"{target_architecture}.dockerfile"
+        dockerfile: str = "Dockerfile"
+        buildargs: Dict[str, str] = {
+            "OFFICIAL_PYTHON_IMAGE": BASE_IMAGES[target_architecture]
+        }
         tag: str = f"{self.image_name}:{target_architecture}-{self.dynamic_version_tag}"
 
         image: Image = self.docker_client.images.build(
             path=self.absolute_docker_image_directory_path,
             dockerfile=dockerfile,
             tag=tag,
+            buildargs=buildargs,
         )[0]
         return image
 

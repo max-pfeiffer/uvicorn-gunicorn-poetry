@@ -9,9 +9,11 @@ of this image can follow up on that.
 
 Any feedback is highly appreciated and will be considered.  
 
-## Usage
-The image is publicly available on Docker Hub: [pfeiffermax/uvicorn-gunicorn-poetry](https://hub.docker.com/r/pfeiffermax/uvicorn-gunicorn-poetry)
+Docker Hub: [pfeiffermax/uvicorn-gunicorn-poetry](https://hub.docker.com/r/pfeiffermax/uvicorn-gunicorn-poetry)
 
+GitHub Repository: [https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry)
+
+## Usage
 It just provides a platform that you can use to build upon your own multistage builds. So it consequently does not contain an
 application itself. Please check out the [example application](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/tree/master/examples/fast_api_multistage_build)
 on how to use that image and build containers efficiently.
