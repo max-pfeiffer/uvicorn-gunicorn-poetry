@@ -1,9 +1,11 @@
 name: Publish Images
 
 on:
-  release:
-    types:
-      - created
+  push:
+    branches:
+      - main
+    tags:
+      - '**'
 
 jobs:
   publish-all-images:
