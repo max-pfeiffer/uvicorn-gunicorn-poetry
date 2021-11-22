@@ -29,7 +29,6 @@ jobs:
         env:
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          VERSION_TAG: ${{ GIT_TAG_NAME }}
         run: |
           source .venv/bin/activate
           python publish.py

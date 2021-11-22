@@ -13,7 +13,7 @@ environment_variables_loaded: bool = load_dotenv()
 
 docker_hub_username: str = os.getenv("DOCKER_HUB_USERNAME")
 docker_hub_password: str = os.getenv("DOCKER_HUB_PASSWORD")
-version_tag: str = os.getenv("VERSION_TAG")
+version_tag: str = os.getenv("GIT_TAG_NAME")
 
 
 def main() -> None:
