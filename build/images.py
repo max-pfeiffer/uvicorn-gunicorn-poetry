@@ -75,7 +75,7 @@ class FastApiMultistageImage(DockerImage):
         if version is not None:
             self.version_tag = version
 
-        self.image_tag = f"-{self.version_tag}-{target_architecture}"
+        self.image_tag = f"{self.version_tag}-{target_architecture}"
 
         buildargs: Dict[str, str] = {
             "BASE_IMAGE_NAME_AND_TAG": f"{UVICORN_GUNICORN_POETRY_IMAGE_NAME}:{self.image_tag}"
