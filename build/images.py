@@ -5,8 +5,11 @@ from typing import Dict
 import docker
 from docker.models.images import Image
 
-from build.constants import UVICORN_GUNICORN_POETRY_IMAGE_NAME, BASE_IMAGES, \
-    FAST_API_MULTISTAGE_IMAGE_NAME
+from build.constants import (
+    UVICORN_GUNICORN_POETRY_IMAGE_NAME,
+    BASE_IMAGES,
+    FAST_API_MULTISTAGE_IMAGE_NAME,
+)
 
 
 class DockerImage:
@@ -40,7 +43,7 @@ class UvicornGunicornPoetryImage(DockerImage):
         buildargs: Dict[str, str] = {
             "OFFICIAL_PYTHON_IMAGE": BASE_IMAGES[target_architecture]
         }
-        tag: str = f"{self.image_name}:{target_architecture}-{self.version_tag}"
+        tag: str = f"{self.image_name}:{self.version_tag}-{target_architecture}"
 
         image: Image = self.docker_client.images.build(
             path=self.absolute_docker_image_directory_path,
@@ -72,7 +75,7 @@ class FastApiMultistageImage(DockerImage):
         if version is not None:
             self.version_tag = version
 
-        self.image_tag = f"{target_architecture}-{self.version_tag}"
+        self.image_tag = f"-{self.version_tag}-{target_architecture}"
 
         buildargs: Dict[str, str] = {
             "BASE_IMAGE_NAME_AND_TAG": f"{UVICORN_GUNICORN_POETRY_IMAGE_NAME}:{self.image_tag}"
