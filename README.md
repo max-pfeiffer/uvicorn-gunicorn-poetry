@@ -106,7 +106,7 @@ have usually monitoring data exported to Prometheus which will not work properly
 
 **default:** `2`
 
-### [Server machanics](https://docs.gunicorn.org/en/stable/settings.html?highlight=worker_tmp_dir#worker-tmp-dir)
+### [Server mechanics](https://docs.gunicorn.org/en/stable/settings.html?highlight=worker_tmp_dir#worker-tmp-dir)
 `WORKER_TMP_DIR` : A directory to use for the worker heartbeat temporary file.
 By default this is set to /dev/shm to speed up the startup of workers by using a in memory file system
 
