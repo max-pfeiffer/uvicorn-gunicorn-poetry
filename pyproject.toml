@@ -11,6 +11,8 @@ python-dotenv = "0.19.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "6.2.5"
+pytest-cov = "3.0.0"
+coverage = "6.1.2"
 docker = "5.0.3"
 requests = "2.25.1"
 black = "21.10b0"
