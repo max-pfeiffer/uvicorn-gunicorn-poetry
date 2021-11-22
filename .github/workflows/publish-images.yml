@@ -2,10 +2,8 @@ name: Publish Images
 
 on:
   push:
-    branches:
-      - main
     tags:
-      - '**'
+      - '*'
 
 jobs:
   publish-all-images:
@@ -27,11 +25,11 @@ jobs:
         run: |
           poetry config virtualenvs.in-project true
           poetry install --no-root
-      - name: Run all tests with pytest
+      - name: Publish Image to Docker Hub
         env:
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          VERSION_TAG: ${GIT_TAG_NAME}
+          VERSION_TAG: ${{ GIT_TAG_NAME }}
         run: |
           source .venv/bin/activate
           python publish.py
