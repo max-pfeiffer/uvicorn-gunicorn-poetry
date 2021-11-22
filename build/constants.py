@@ -1,6 +1,7 @@
 from typing import List
 
-DOCKER_IMAGE_NAME = "pfeiffermax/uvicorn-gunicorn-poetry"
+UVICORN_GUNICORN_POETRY_IMAGE_NAME = "pfeiffermax/uvicorn-gunicorn-poetry"
+FAST_API_MULTISTAGE_IMAGE_NAME = "fast-api-multistage-build"
 TARGET_ARCHITECTURES: List[str] = [
     "python3.9.8-bullseye",
     "python3.9.8-slim-bullseye",

@@ -1,8 +1,9 @@
-import pytest
 import docker
+import pytest
 from docker.errors import NotFound
 
-from build.images import UvicornGunicornPoetryImage, FastApiMultistageImage
+from build.constants import UVICORN_GUNICORN_POETRY_IMAGE_NAME, \
+    FAST_API_MULTISTAGE_IMAGE_NAME
 from tests.constants import TEST_CONTAINER_NAME
 
 
@@ -21,19 +22,13 @@ def prepare_docker_env(docker_client) -> None:
     except NotFound:
         pass
     # Delete old existing images
-    uvicorn_gunicorn_poetry_image: UvicornGunicornPoetryImage = (
-        UvicornGunicornPoetryImage(docker_client)
-    )
     for old_image in docker_client.images.list(
-        uvicorn_gunicorn_poetry_image.image_name
+            UVICORN_GUNICORN_POETRY_IMAGE_NAME
     ):
         for tag in old_image.tags:
             docker_client.images.remove(tag, force=True)
-    fast_api_multistage_image: FastApiMultistageImage = FastApiMultistageImage(
-        docker_client
-    )
     for old_image in docker_client.images.list(
-        fast_api_multistage_image.image_name
+            FAST_API_MULTISTAGE_IMAGE_NAME
     ):
         for tag in old_image.tags:
             docker_client.images.remove(tag, force=True)
@@ -48,19 +43,13 @@ def prepare_docker_env(docker_client) -> None:
     except NotFound:
         pass
     # Delete old existing images
-    uvicorn_gunicorn_poetry_image: UvicornGunicornPoetryImage = (
-        UvicornGunicornPoetryImage(docker_client)
-    )
     for old_image in docker_client.images.list(
-        uvicorn_gunicorn_poetry_image.image_name
+            UVICORN_GUNICORN_POETRY_IMAGE_NAME
     ):
         for tag in old_image.tags:
             docker_client.images.remove(tag, force=True)
-    fast_api_multistage_image: FastApiMultistageImage = FastApiMultistageImage(
-        docker_client
-    )
     for old_image in docker_client.images.list(
-        fast_api_multistage_image.image_name
+            FAST_API_MULTISTAGE_IMAGE_NAME
     ):
         for tag in old_image.tags:
             docker_client.images.remove(tag, force=True)

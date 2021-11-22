@@ -4,7 +4,7 @@ import os
 import docker
 from dotenv import load_dotenv
 
-from build.constants import TARGET_ARCHITECTURES, DOCKER_IMAGE_NAME
+from build.constants import TARGET_ARCHITECTURES, UVICORN_GUNICORN_POETRY_IMAGE_NAME
 from build.images import UvicornGunicornPoetryImage
 
 environment_variables_loaded: bool = load_dotenv()
@@ -62,7 +62,7 @@ def main() -> None:
         docker_client.login(username=docker_hub_username,
                             password=docker_hub_password)
         for line in docker_client.images.push(
-            DOCKER_IMAGE_NAME,
+            UVICORN_GUNICORN_POETRY_IMAGE_NAME,
             tag=new_uvicorn_gunicorn_poetry_image.image_tag,
             stream=True,
             decode=True,
