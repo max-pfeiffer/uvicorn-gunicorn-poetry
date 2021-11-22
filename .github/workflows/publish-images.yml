@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+      - name: Get Git Commit Tag Name
+        uses: olegtarasov/get-tag@v2.1
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
@@ -26,7 +28,6 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry install --no-root
       - name: Run all tests with pytest
-        uses: olegtarasov/get-tag@v2.1
         env:
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
