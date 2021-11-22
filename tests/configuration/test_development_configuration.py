@@ -6,7 +6,7 @@ import requests
 from docker.models.containers import Container
 from docker.models.images import Image
 
-from build.constants import TARGET_ARCHITECTURE
+from build.constants import TARGET_ARCHITECTURES
 from build.images import UvicornGunicornPoetryImage, FastApiMultistageImage
 from tests.constants import (
     TEST_CONTAINER_NAME,
@@ -40,7 +40,7 @@ def verify_container(container: UvicornGunicornPoetryContainerConfig) -> None:
     )
 
 
-@pytest.mark.parametrize("target_architecture", TARGET_ARCHITECTURE)
+@pytest.mark.parametrize("target_architecture", TARGET_ARCHITECTURES)
 def test_default_configuration(docker_client, target_architecture) -> None:
     UvicornGunicornPoetryImage(docker_client).build(target_architecture)
     test_image: Image = FastApiMultistageImage(docker_client).build(

@@ -4,11 +4,10 @@ import os
 import docker
 from dotenv import load_dotenv
 
-from build.constants import TARGET_ARCHITECTURE, DOCKER_REPOSITORY
+from build.constants import TARGET_ARCHITECTURES, DOCKER_IMAGE_NAME
 from build.images import UvicornGunicornPoetryImage
 
 environment_variables_loaded: bool = load_dotenv()
-docker_client: docker.client = docker.from_env()
 
 docker_hub_username: str = os.getenv("DOCKER_HUB_USERNAME")
 docker_hub_password: str = os.getenv("DOCKER_HUB_PASSWORD")
@@ -31,15 +30,17 @@ def init_argparse() -> argparse.ArgumentParser:
     parser.add_argument(
         "--target-architecture",
         required=False,
-        choices=TARGET_ARCHITECTURE,
-        default=TARGET_ARCHITECTURE[0],
+        choices=TARGET_ARCHITECTURES,
+        default=TARGET_ARCHITECTURES[0],
         help="Target build architecture",
     )
     return parser
 
 
 def main() -> None:
-    for target_architecture in TARGET_ARCHITECTURE:
+    docker_client: docker.client = docker.from_env()
+
+    for target_architecture in TARGET_ARCHITECTURES:
         new_uvicorn_gunicorn_poetry_image: UvicornGunicornPoetryImage = (
             UvicornGunicornPoetryImage(docker_client)
         )
@@ -61,7 +62,7 @@ def main() -> None:
         docker_client.login(username=docker_hub_username,
                             password=docker_hub_password)
         for line in docker_client.images.push(
-            DOCKER_REPOSITORY,
+            DOCKER_IMAGE_NAME,
             tag=new_uvicorn_gunicorn_poetry_image.image_tag,
             stream=True,
             decode=True,

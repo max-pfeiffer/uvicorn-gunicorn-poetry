@@ -5,7 +5,7 @@ from typing import Dict
 import docker
 from docker.models.images import Image
 
-from build.constants import DOCKER_REPOSITORY, BASE_IMAGES
+from build.constants import DOCKER_IMAGE_NAME, BASE_IMAGES
 
 
 class DockerImage:
@@ -16,7 +16,8 @@ class DockerImage:
         )
         self.image_name: str = None
         self.image_tag: str = None
-        self.dynamic_version_tag: str = datetime.today().strftime("%Y-%m-%d")
+        self.version_tag: str = datetime.today().strftime("%Y-%m-%d")
+        self.dockerfile_name: str = "Dockerfile"
 
 
 class UvicornGunicornPoetryImage(DockerImage):
@@ -29,18 +30,20 @@ class UvicornGunicornPoetryImage(DockerImage):
         # An image name is made up of slash-separated name components, optionally prefixed by a registry hostname.
         # see: https://docs.docker.com/engine/reference/commandline/tag/
         # self.image_name = 'pfeiffermax/uvicorn-gunicorn-poetry'
-        self.image_name = DOCKER_REPOSITORY
+        self.image_name = DOCKER_IMAGE_NAME
 
-    def build(self, target_architecture: str) -> Image:
-        dockerfile: str = "Dockerfile"
+    def build(self, target_architecture: str, version: str = None) -> Image:
+        if version is not None:
+            self.version_tag = version
+
         buildargs: Dict[str, str] = {
             "OFFICIAL_PYTHON_IMAGE": BASE_IMAGES[target_architecture]
         }
-        tag: str = f"{self.image_name}:{target_architecture}-{self.dynamic_version_tag}"
+        tag: str = f"{self.image_name}:{target_architecture}-{self.version_tag}"
 
         image: Image = self.docker_client.images.build(
             path=self.absolute_docker_image_directory_path,
-            dockerfile=dockerfile,
+            dockerfile=self.dockerfile_name,
             tag=tag,
             buildargs=buildargs,
         )[0]
@@ -62,14 +65,20 @@ class FastApiMultistageImage(DockerImage):
         # see: https://docs.docker.com/engine/reference/commandline/tag/
         self.image_name: str = "fast-api-multistage-build"
 
-    def build(self, target_architecture: str, target: str) -> Image:
-        self.image_tag = f"{target_architecture}-{self.dynamic_version_tag}"
+    def build(
+        self, target_architecture: str, target: str, version: str = None
+    ) -> Image:
+        if version is not None:
+            self.version_tag = version
+
+        self.image_tag = f"{target_architecture}-{self.version_tag}"
+
         buildargs: Dict[str, str] = {
-            "BASE_IMAGE_NAME_AND_TAG": f"{DOCKER_REPOSITORY}:{self.image_tag}"
+            "BASE_IMAGE_NAME_AND_TAG": f"{DOCKER_IMAGE_NAME}:{self.image_tag}"
         }
         image: Image = self.docker_client.images.build(
             path=self.absolute_docker_image_directory_path,
-            dockerfile="Dockerfile",
+            dockerfile=self.dockerfile_name,
             tag=f"{self.image_name}:{self.image_tag}",
             target=target,
             buildargs=buildargs,
