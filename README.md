@@ -1,3 +1,4 @@
+[![codecov](https://codecov.io/gh/max-pfeiffer/uvicorn-gunicorn-poetry/branch/main/graph/badge.svg?token=ZRUKVNP3I5)](https://codecov.io/gh/max-pfeiffer/uvicorn-gunicorn-poetry)
 # uvicorn-gunicorn-poetry
 This image provides a platform to install Gunicorn with Uvicorn workers for running a web application.
 It provides [Poetry](https://python-poetry.org/) for managing dependencies and setting up a virtual environment in the container.
