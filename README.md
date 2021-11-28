@@ -14,6 +14,9 @@ Docker Hub: [pfeiffermax/uvicorn-gunicorn-poetry](https://hub.docker.com/r/pfeif
 
 GitHub Repository: [https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry)
 
+**IMPORTANT:** Please be aware of a bug with Gunicorn: [worker reload with Uvicorn workers is currently broken.](https://github.com/benoitc/gunicorn/issues/2339)
+So the latest version of that image does not provide that functionality any more.
+
 ## Usage
 It just provides a platform that you can use to build upon your own multistage builds. So it consequently does not contain an
 application itself. Please check out the [example application](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/tree/master/examples/fast_api_multistage_build)
@@ -82,11 +85,6 @@ if you would like to do a deep dive. Following environment variables are support
 `ERROR_LOG` : The Error log file to write to.  
 
 **default:** `-`
-
-### [Debugging](https://docs.gunicorn.org/en/stable/settings.html#debugging)
-`RELOAD` : Restart workers when code changes.
-
-**default:** `False`
 
 ### [Worker processes](https://docs.gunicorn.org/en/stable/settings.html#worker-processes)
 `WORKERS` : The number of worker processes for handling requests. By default this is set to one

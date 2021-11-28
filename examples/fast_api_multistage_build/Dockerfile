@@ -1,4 +1,4 @@
-ARG BASE_IMAGE_NAME_AND_TAG=pfeiffermax/uvicorn-gunicorn-poetry:python3.9.8-slim-bullseye-2021-11-15
+ARG BASE_IMAGE_NAME_AND_TAG=pfeiffermax/uvicorn-gunicorn-poetry:1.0.0-python3.9.8-slim-bullseye
 FROM ${BASE_IMAGE_NAME_AND_TAG} as base-image
 
 WORKDIR /application_root
@@ -40,7 +40,7 @@ CMD ["--cov=app", "--cov-report=xml:/test_coverage_reports/unit_tests_coverage.x
 
 FROM base-image as development-image
 ENV WORKERS="1" \
-    RELOAD="True" \
+#   RELOAD="True" \
     LOG_LEVEL="debug"
 
 COPY --from=base-image $VIRTUAL_ENVIRONMENT_PATH $VIRTUAL_ENVIRONMENT_PATH

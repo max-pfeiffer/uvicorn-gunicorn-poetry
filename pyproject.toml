@@ -19,9 +19,15 @@ black = "21.10b0"
 
 # https://docs.pytest.org/en/latest/reference/customize.html
 [tool.pytest.ini_options]
+addopts = "--ignore=tests/functionality/test_worker_reload.py"
 testpaths = [
     "tests",
 ]
+
+# https://black.readthedocs.io/en/stable/usage_and_configuration/the_basics.html#configuration-via-a-file
+[tool.black]
+line-length = 80
+target-version = ['py39']
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
