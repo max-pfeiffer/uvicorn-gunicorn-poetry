@@ -1,6 +1,7 @@
 [![codecov](https://codecov.io/gh/max-pfeiffer/uvicorn-gunicorn-poetry/branch/main/graph/badge.svg?token=ZRUKVNP3I5)](https://codecov.io/gh/max-pfeiffer/uvicorn-gunicorn-poetry)
 # uvicorn-gunicorn-poetry
-This image provides a platform to install Gunicorn with Uvicorn workers for running a web application.
+This Docker image provides a platform to run Python applications with [Gunicorn](https://gunicorn.org) as process manager and
+[Uvicorn](https://www.uvicorn.org/) workers.
 It provides [Poetry](https://python-poetry.org/) for managing dependencies and setting up a virtual environment in the container.
 
 This image aims to follow the best practices for a production grade container image for hosting Python web applications based
@@ -13,6 +14,9 @@ Any feedback is highly appreciated and will be considered.
 Docker Hub: [pfeiffermax/uvicorn-gunicorn-poetry](https://hub.docker.com/r/pfeiffermax/uvicorn-gunicorn-poetry)
 
 GitHub Repository: [https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry)
+
+If you would like to run your Python application with Uvicorn on [Kubernetes](https://kubernetes.io/), please check out my other project which does not use
+Gunicorn as process manager: https://github.com/max-pfeiffer/uvicorn-poetry
 
 **IMPORTANT:** Please be aware of a bug with Gunicorn: [worker reload with Uvicorn workers is currently broken.](https://github.com/benoitc/gunicorn/issues/2339)
 So the latest version of that image does not provide that functionality any more.
