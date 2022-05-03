@@ -49,7 +49,7 @@ The application and test structure needs to be like that:
 ```
 Please be aware that you need to provide a pyproject.toml file to specify your Python package dependencies for Poetry and configure
 dependencies like Pytest. Poetry dependencies must at least contain the following to work:
-* python = "3.9.8"
+* python = "3.9.12"
 * gunicorn = "20.1.0"
 * uvicorn = "0.15.0"
 
