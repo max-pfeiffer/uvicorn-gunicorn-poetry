@@ -8,6 +8,8 @@ from build.constants import (
     UVICORN_GUNICORN_POETRY_IMAGE_NAME,
     BASE_IMAGES,
     FAST_API_MULTISTAGE_IMAGE_NAME,
+    POETRY_VERSION,
+    APPLICATION_SERVER_PORT,
 )
 
 
@@ -40,7 +42,9 @@ class UvicornGunicornPoetryImage(DockerImage):
             self.version_tag = version
 
         buildargs: Dict[str, str] = {
-            "OFFICIAL_PYTHON_IMAGE": BASE_IMAGES[target_architecture]
+            "OFFICIAL_PYTHON_IMAGE": BASE_IMAGES[target_architecture],
+            "IMAGE_POETRY_VERSION": POETRY_VERSION,
+            "APPLICATION_SERVER_PORT": APPLICATION_SERVER_PORT,
         }
         tag: str = f"{self.image_name}:{self.version_tag}-{target_architecture}"
 
@@ -80,7 +84,11 @@ class FastApiMultistageImage(DockerImage):
 
         self.image_tag = f"{self.version_tag}-{target_architecture}"
 
-        buildargs: Dict[str, str] = {"BASE_IMAGE_NAME_AND_TAG": base_image_tag}
+        buildargs: Dict[str, str] = {
+            "BASE_IMAGE_NAME_AND_TAG": base_image_tag,
+            "OFFICIAL_PYTHON_IMAGE": BASE_IMAGES[target_architecture],
+            "APPLICATION_SERVER_PORT": APPLICATION_SERVER_PORT,
+        }
         image: Image = self.docker_client.images.build(
             path=str(self.absolute_docker_image_directory_path),
             dockerfile=self.dockerfile_name,
