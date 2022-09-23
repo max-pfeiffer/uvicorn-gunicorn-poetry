@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Optional
 
 import docker
 from docker.models.images import Image
@@ -41,7 +41,7 @@ class UvicornGunicornPoetryImage(DockerImage):
         if version is not None:
             self.version_tag = version
 
-        buildargs: Dict[str, str] = {
+        buildargs: dict[str, str] = {
             "OFFICIAL_PYTHON_IMAGE": BASE_IMAGES[target_architecture],
             "IMAGE_POETRY_VERSION": POETRY_VERSION,
             "APPLICATION_SERVER_PORT": APPLICATION_SERVER_PORT,
@@ -84,7 +84,7 @@ class FastApiMultistageImage(DockerImage):
 
         self.image_tag = f"{self.version_tag}-{target_architecture}"
 
-        buildargs: Dict[str, str] = {
+        buildargs: dict[str, str] = {
             "BASE_IMAGE_NAME_AND_TAG": base_image_tag,
             "OFFICIAL_PYTHON_IMAGE": BASE_IMAGES[target_architecture],
             "APPLICATION_SERVER_PORT": APPLICATION_SERVER_PORT,

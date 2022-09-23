@@ -6,7 +6,7 @@ TARGET_ARCHITECTURES: list[str] = [
     "python3.10.7-bullseye",
     "python3.10.7-slim-bullseye",
 ]
-BASE_IMAGES = {
+BASE_IMAGES: dict = {
     TARGET_ARCHITECTURES[0]: "python:3.9.14-bullseye",
     TARGET_ARCHITECTURES[1]: "python:3.9.14-slim-bullseye",
     TARGET_ARCHITECTURES[2]: "python:3.10.7-bullseye",
