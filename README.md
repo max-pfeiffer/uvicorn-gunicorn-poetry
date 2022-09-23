@@ -22,7 +22,7 @@ Any feedback is highly appreciated and will be considered.
 **GitHub Repository:** [https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry)
 
 **IMPORTANT:** Please be aware of a bug with Gunicorn: [worker reload with Uvicorn workers is currently broken.](https://github.com/benoitc/gunicorn/issues/2339)
-So the latest version of that image does not provide that functionality any more.
+So the latest version of that image does not provide that functionality any more. Meanwhile [the bug became already fixed in Gunicorn](https://github.com/bigsbug/gunicorn/pull/1), but the fix was released yet.
 
 ## Usage
 It just provides a platform that you can use to build upon your own multistage builds. So it consequently does not contain an
