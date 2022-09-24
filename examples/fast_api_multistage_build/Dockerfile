@@ -1,4 +1,4 @@
-ARG BASE_IMAGE_NAME_AND_TAG=pfeiffermax/uvicorn-gunicorn-poetry:1.0.0-python3.9.8-slim-bullseye
+ARG BASE_IMAGE_NAME_AND_TAG=pfeiffermax/uvicorn-gunicorn-poetry:1.3.0-python3.9.14-slim-bullseye
 FROM ${BASE_IMAGE_NAME_AND_TAG} as base-image
 
 # install [tool.poetry.dependencies]

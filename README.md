@@ -22,7 +22,7 @@ Any feedback is highly appreciated and will be considered.
 **GitHub Repository:** [https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry)
 
 **IMPORTANT:** Please be aware of a bug with Gunicorn: [worker reload with Uvicorn workers is currently broken.](https://github.com/benoitc/gunicorn/issues/2339)
-So the latest version of that image does not provide that functionality any more. Meanwhile [the bug became already fixed in Gunicorn](https://github.com/bigsbug/gunicorn/pull/1), but the fix was released yet.
+So the latest version of that image does not provide that functionality any more. Meanwhile [the bug became already fixed in Gunicorn](https://github.com/bigsbug/gunicorn/pull/1), but the fix is not released yet.
 
 ## Docker Image Features
 1. Supported architectures:
@@ -46,8 +46,8 @@ The application and test structure needs to be like that:
 ```bash
 ├── Dockerfile
 ├── app
-│    ├── __init__.py
-│    └── main.py
+│   ├── __init__.py
+│   └── main.py
 ├── poetry.lock
 ├── pyproject.toml
 └── tests
