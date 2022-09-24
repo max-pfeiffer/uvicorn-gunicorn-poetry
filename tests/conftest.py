@@ -2,18 +2,13 @@ from random import randrange
 
 import docker
 import pytest
-from docker.errors import NotFound
-
-from build.constants import (
-    UVICORN_GUNICORN_POETRY_IMAGE_NAME,
-    FAST_API_MULTISTAGE_IMAGE_NAME,
-    TARGET_ARCHITECTURES,
-)
-from build.images import UvicornGunicornPoetryImage, FastApiMultistageImage
-from tests.constants import TEST_CONTAINER_NAME
 from docker.models.images import Image
 from semver import VersionInfo
 
+from build.constants import (
+    TARGET_ARCHITECTURES,
+)
+from build.images import UvicornGunicornPoetryImage, FastApiMultistageImage
 from tests.utils import ImageTagComponents
 
 
