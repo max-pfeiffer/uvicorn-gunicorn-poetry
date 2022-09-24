@@ -1,13 +1,11 @@
 ARG BASE_IMAGE_NAME_AND_TAG=pfeiffermax/uvicorn-gunicorn-poetry:1.0.0-python3.9.8-slim-bullseye
 FROM ${BASE_IMAGE_NAME_AND_TAG} as base-image
 
-WORKDIR /application_root
-
 # install [tool.poetry.dependencies]
 # this will install virtual environment into /.venv because of POETRY_VIRTUALENVS_IN_PROJECT=true
 # see: https://python-poetry.org/docs/configuration/#virtualenvsin-project
 COPY ./poetry.lock ./pyproject.toml /application_root/
-RUN poetry install --no-interaction --no-root --no-dev
+RUN poetry install --no-interaction --no-root --without dev
 
 FROM base-image as test-base-image
 ENV WORKERS="1" \

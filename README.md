@@ -22,7 +22,18 @@ Any feedback is highly appreciated and will be considered.
 **GitHub Repository:** [https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry)
 
 **IMPORTANT:** Please be aware of a bug with Gunicorn: [worker reload with Uvicorn workers is currently broken.](https://github.com/benoitc/gunicorn/issues/2339)
-So the latest version of that image does not provide that functionality any more.
+So the latest version of that image does not provide that functionality any more. Meanwhile [the bug became already fixed in Gunicorn](https://github.com/bigsbug/gunicorn/pull/1), but the fix was released yet.
+
+## Docker Image Features
+1. Supported architectures:
+   1. Python v3.9, Debian or Debian-slim
+   2. Python v3.10, Debian or Debian-slim
+2. Poetry is available as Python package dependency management tool
+3. A virtual environment for the application and application server
+4. An [entrypoint for running the Python application with Gunicorn](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/blob/main/build/scripts/start_gunicorn.sh)
+5. Additional entrypoints for [pytest](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/blob/main/build/scripts/pytest_entrypoint.sh)
+   and [black](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/blob/main/build/scripts/black_entrypoint.sh) which can be used in
+   multi stage builds for building docker executables
 
 ## Usage
 It just provides a platform that you can use to build upon your own multistage builds. So it consequently does not contain an
@@ -35,8 +46,8 @@ The application and test structure needs to be like that:
 ```bash
 ├── Dockerfile
 ├── app
-│   ├── __init__.py
-│   └── main.py
+│    ├── __init__.py
+│    └── main.py
 ├── poetry.lock
 ├── pyproject.toml
 └── tests
@@ -49,25 +60,16 @@ The application and test structure needs to be like that:
 ```
 Please be aware that you need to provide a pyproject.toml file to specify your Python package dependencies for Poetry and configure
 dependencies like Pytest. Poetry dependencies must at least contain the following to work:
-* python = "3.9.12"
+* python = "^3.9"
 * gunicorn = "20.1.0"
-* uvicorn = "0.15.0"
+* uvicorn = "0.18.3"
 
 If your application uses FastAPI framework this needs to be added as well:
-* fastapi = "0.70.0"
+* fastapi = "0.85.0"
 
 **IMPORTANT:** make sure you have a [.dockerignore file](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/blob/master/examples/fast_api_multistage_build/.dockerignore)
 in your application root which excludes your local virtual environment in .venv! Otherwise you will have an issue activating that virtual
 environment when running the container.
-
-## Image Features
-1. Supported architectures: currently only Python v3.9.8, Debian or Debian-slim
-2. Poetry is available as Python package dependency management tool
-3. A virtual environment for the application and application server
-4. Configuration of Gunicorn through environment variables
-5. Additional entrypoints for [pytest](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/blob/master/build/scripts/pytest_entrypoint.sh)
-and [black](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/blob/master/build/scripts/black_entrypoint.sh) which can be used in
-multi stage builds for building docker executables 
 
 ## Configuration
 Configuration is done trough the following environment variables during docker build.
