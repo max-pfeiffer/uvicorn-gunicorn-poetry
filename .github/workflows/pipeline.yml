@@ -26,6 +26,7 @@ jobs:
           pylint publish.py build tests
       - name: black
         run: |
+          source .venv/bin/activate
           black --check .
 
   run-tests:
