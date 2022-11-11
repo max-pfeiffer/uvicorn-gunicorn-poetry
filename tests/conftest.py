@@ -8,7 +8,11 @@ from semver import VersionInfo
 from build.constants import (
     TARGET_ARCHITECTURES,
 )
-from build.images import UvicornGunicornPoetryImage, FastApiMultistageImage
+from build.images import (
+    UvicornGunicornPoetryImage,
+    FastApiMultistageImage,
+    FastApiSinglestageImage,
+)
 from tests.utils import ImageTagComponents
 
 
@@ -119,6 +123,24 @@ def fast_api_multistage_development_test_image(
         components.target_architecture,
         target,
         image_version,
+        uvicorn_gunicorn_poetry_image,
+    )
+    image_tag: str = image.tags[0]
+    yield image_tag
+    docker_client.images.remove(image_tag, force=True)
+
+
+@pytest.fixture(scope="session")
+def fast_api_singlestage_image(
+    docker_client, uvicorn_gunicorn_poetry_image
+) -> str:
+    components: ImageTagComponents = ImageTagComponents.create_from_tag(
+        uvicorn_gunicorn_poetry_image
+    )
+
+    image: Image = FastApiSinglestageImage(docker_client).build(
+        components.target_architecture,
+        components.version,
         uvicorn_gunicorn_poetry_image,
     )
     image_tag: str = image.tags[0]
