@@ -6,16 +6,18 @@ import pytest
 import requests
 from docker.models.containers import Container
 
+from build.constants import APPLICATION_SERVER_PORT
 from tests.constants import (
     SLEEP_TIME,
     HELLO_WORLD,
     DEVELOPMENT_GUNICORN_CONFIG,
+    EXPOSED_CONTAINER_PORT,
 )
 from tests.utils import UvicornGunicornPoetryContainerConfig
 
 
 def verify_container(container: UvicornGunicornPoetryContainerConfig) -> None:
-    response = requests.get("http://127.0.0.1:8000")
+    response = requests.get(f"http://127.0.0.1:{EXPOSED_CONTAINER_PORT}")
     assert json.loads(response.text) == HELLO_WORLD
 
     config_data = container.get_config()
@@ -48,7 +50,7 @@ def test_development_configuration(
     test_container: Container = docker_client.containers.run(
         fast_api_multistage_development_image,
         name=cleaned_up_test_container,
-        ports={"80": "8000"},
+        ports={APPLICATION_SERVER_PORT: EXPOSED_CONTAINER_PORT},
         detach=True,
     )
     uvicorn_gunicorn_container: UvicornGunicornPoetryContainerConfig = (

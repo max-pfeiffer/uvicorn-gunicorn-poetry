@@ -22,7 +22,8 @@ Any feedback is highly appreciated and will be considered.
 **GitHub Repository:** [https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry)
 
 **IMPORTANT:** Please be aware of a bug with Gunicorn: [worker reload with Uvicorn workers is currently broken.](https://github.com/benoitc/gunicorn/issues/2339)
-So the latest version of that image does not provide that functionality any more. Meanwhile [the bug became already fixed in Gunicorn](https://github.com/bigsbug/gunicorn/pull/1), but the fix is not released yet.
+So the latest version of that image does not provide that functionality any more. Meanwhile [the bug became fixed in Gunicorn](https://github.com/bigsbug/gunicorn/pull/1),
+but the fix did not become merged yet.
 
 ## Docker Image Features
 1. Supported architectures:
@@ -37,8 +38,13 @@ So the latest version of that image does not provide that functionality any more
 
 ## Usage
 It just provides a platform that you can use to build upon your own multistage builds. So it consequently does not contain an
-application itself. Please check out the [example application](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/tree/master/examples/fast_api_multistage_build)
+application itself.
+
+Please check out the [example application for multistage builds](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/tree/master/examples/fast_api_multistage_build)
 on how to use that image and build containers efficiently.
+
+There is also another [sample app demonstrating a very simple single stage build](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/tree/main/examples/fast_api_singlestage_build).
+If you are not concerned about image size, go for that image.
 
 Please be aware that your application needs an application layout without src folder which is proposed in
 [fastapi-realworld-example-app](https://github.com/nsidnev/fastapi-realworld-example-app).

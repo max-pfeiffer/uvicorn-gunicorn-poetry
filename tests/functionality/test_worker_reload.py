@@ -4,7 +4,8 @@ from uuid import uuid4
 import pytest
 from docker.models.containers import Container
 
-from tests.constants import SLEEP_TIME
+from build.constants import APPLICATION_SERVER_PORT
+from tests.constants import SLEEP_TIME, EXPOSED_CONTAINER_PORT
 
 
 @pytest.mark.parametrize(
@@ -18,7 +19,7 @@ def test_worker_reload(
     test_container: Container = docker_client.containers.run(
         fast_api_multistage_development_image,
         name=cleaned_up_test_container,
-        ports={"80": "8000"},
+        ports={APPLICATION_SERVER_PORT: EXPOSED_CONTAINER_PORT},
         detach=True,
     )
     time.sleep(SLEEP_TIME)
