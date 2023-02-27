@@ -2,7 +2,7 @@ import os
 import json
 
 DEFAULT_GUNICORN_CONFIG = {
-    "bind": "0.0.0.0:80",
+    "bind": "0.0.0.0:8000",
     "workers": 1,
     "timeout": 30,
     "graceful_timeout": 30,
@@ -10,7 +10,7 @@ DEFAULT_GUNICORN_CONFIG = {
     "loglevel": "info",
     "accesslog": "-",
     "errorlog": "-",
-#   "reload": False,
+    #   "reload": False,
     "worker_tmp_dir": "/dev/shm",
 }
 
@@ -57,7 +57,7 @@ log_data = {
     "loglevel": loglevel,
     "errorlog": errorlog,
     "accesslog": accesslog,
-#   "reload": reload,
+    #   "reload": reload,
     "worker_tmp_dir": worker_tmp_dir,
 }
 print(json.dumps(log_data))

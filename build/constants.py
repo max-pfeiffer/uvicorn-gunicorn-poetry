@@ -33,4 +33,7 @@ PYTHON_VERSIONS: dict = {
     TARGET_ARCHITECTURES[2]: "3.10.7",
     TARGET_ARCHITECTURES[3]: "3.10.7",
 }
-APPLICATION_SERVER_PORT: str = "80"
+
+# As we are running the server with an unprivileged user, we need to use
+# a high port.
+APPLICATION_SERVER_PORT: str = "8000"
