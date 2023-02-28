@@ -2,7 +2,7 @@
 ![pipeline workflow](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/actions/workflows/pipeline.yml/badge.svg)
 ![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/pfeiffermax/uvicorn-gunicorn-poetry?sort=semver)
 ![Docker Pulls](https://img.shields.io/docker/pulls/pfeiffermax/uvicorn-gunicorn-poetry)
-# uvicorn-gunicorn-poetry
+# uvicorn-gunicorn-poetry - Docker image for FastAPI
 This Docker image provides a platform to run Python applications with [Gunicorn](https://gunicorn.org) as process manager and
 [Uvicorn](https://www.uvicorn.org/) workers.
 It provides [Poetry](https://python-poetry.org/) for managing dependencies and setting up a virtual environment in the container.
