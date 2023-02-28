@@ -18,6 +18,5 @@ repos:
         language: system
         types: [python]
         args:
-          - publish.py
           - build
           - tests
