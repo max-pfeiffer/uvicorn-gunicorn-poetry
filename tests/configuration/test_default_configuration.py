@@ -4,6 +4,7 @@ from uuid import uuid4
 
 import pytest
 import requests
+from docker import APIClient
 from docker.models.containers import Container
 
 from build.constants import APPLICATION_SERVER_PORT
@@ -30,7 +31,6 @@ def verify_container_config(
     assert config_data["loglevel"] == DEFAULT_GUNICORN_CONFIG["loglevel"]
     assert config_data["accesslog"] == DEFAULT_GUNICORN_CONFIG["accesslog"]
     assert config_data["errorlog"] == DEFAULT_GUNICORN_CONFIG["errorlog"]
-    #   assert config_data["reload"] == DEFAULT_GUNICORN_CONFIG["reload"]
     assert (
         config_data["worker_tmp_dir"]
         == DEFAULT_GUNICORN_CONFIG["worker_tmp_dir"]
@@ -89,3 +89,20 @@ def test_single_stage_image(
     test_container.start()
     sleep(SLEEP_TIME)
     verify_container_config(uvicorn_gunicorn_container_config)
+
+
+def test_exposed_application_server_port(
+    fast_api_multistage_production_image, fast_api_singlestage_image
+) -> None:
+    api_client = APIClient()
+    inspection_result: dict = api_client.inspect_image(
+        fast_api_multistage_production_image
+    )
+    exposed_ports: dict = inspection_result["ContainerConfig"]["ExposedPorts"]
+    assert f"{APPLICATION_SERVER_PORT}/tcp" in exposed_ports.keys()
+
+    inspection_result: dict = api_client.inspect_image(
+        fast_api_singlestage_image
+    )
+    exposed_ports: dict = inspection_result["ContainerConfig"]["ExposedPorts"]
+    assert f"{APPLICATION_SERVER_PORT}/tcp" in exposed_ports.keys()

@@ -9,7 +9,7 @@ It provides [Poetry](https://python-poetry.org/) for managing dependencies and s
 
 This image aims to follow the best practices for a production grade container image for hosting Python web applications based
 on micro frameworks like [FastAPI](https://fastapi.tiangolo.com/).
-Therefore source and documentation contain a lot of references to documentation of dependencies used in this project, so users
+Therefore, source and documentation contain a lot of references to documentation of dependencies used in this project, so users
 of this image can follow up on that.
 
 If you would like to run your Python application with Uvicorn on [Kubernetes](https://kubernetes.io/), please check out my other project which does not use
@@ -21,20 +21,13 @@ Any feedback is highly appreciated and will be considered.
 
 **GitHub Repository:** [https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry)
 
-**IMPORTANT:** Please be aware of a bug with Gunicorn: [worker reload with Uvicorn workers is currently broken.](https://github.com/benoitc/gunicorn/issues/2339)
-So the latest version of that image does not provide that functionality any more. Meanwhile [the bug became fixed in Gunicorn](https://github.com/bigsbug/gunicorn/pull/1),
-but the fix did not become merged yet.
-
 ## Docker Image Features
 1. Supported architectures:
    1. Python v3.9, Debian or Debian-slim
    2. Python v3.10, Debian or Debian-slim
 2. Poetry is available as Python package dependency management tool
 3. A virtual environment for the application and application server
-4. An [entrypoint for running the Python application with Gunicorn](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/blob/main/build/scripts/start_gunicorn.sh)
-5. Additional entrypoints for [pytest](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/blob/main/build/scripts/pytest_entrypoint.sh)
-   and [black](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/blob/main/build/scripts/black_entrypoint.sh) which can be used in
-   multi stage builds for building docker executables
+4. The application is run with [Gunicorn](https://gunicorn.org/) and Uvicorn workers
 
 ## Usage
 It just provides a platform that you can use to build upon your own multistage builds. So it consequently does not contain an
@@ -44,7 +37,6 @@ Please check out the [example application for multistage builds](https://github.
 on how to use that image and build containers efficiently.
 
 There is also another [sample app demonstrating a very simple single stage build](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/tree/main/examples/fast_api_singlestage_build).
-If you are not concerned about image size, go for that image.
 
 Please be aware that your application needs an application layout without src folder which is proposed in
 [fastapi-realworld-example-app](https://github.com/nsidnev/fastapi-realworld-example-app).
@@ -74,11 +66,11 @@ If your application uses FastAPI framework this needs to be added as well:
 * fastapi = "0.85.0"
 
 **IMPORTANT:** make sure you have a [.dockerignore file](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/blob/master/examples/fast_api_multistage_build/.dockerignore)
-in your application root which excludes your local virtual environment in .venv! Otherwise you will have an issue activating that virtual
+in your application root which excludes your local virtual environment in .venv! Otherwise, you will have an issue activating that virtual
 environment when running the container.
 
 ## Configuration
-Configuration is done trough the following environment variables during docker build.
+Configuration is done through the following environment variables during docker build.
 For all the following configuration options please see always the
 [official Gunicorn documentation](https://docs.gunicorn.org/en/stable/settings.html)
 if you would like to do a deep dive. Following environment variables are supported:
@@ -102,7 +94,7 @@ if you would like to do a deep dive. Following environment variables are support
 **default:** `-`
 
 ### [Worker processes](https://docs.gunicorn.org/en/stable/settings.html#worker-processes)
-`WORKERS` : The number of worker processes for handling requests. By default this is set to one
+`WORKERS` : The number of worker processes for handling requests. By default, this is set to one
 worker as this image is meant to be used on a production grade Kubernetes environment. There you
 have usually monitoring data exported to Prometheus which will not work properly with multiple workers.   
 
@@ -122,11 +114,11 @@ have usually monitoring data exported to Prometheus which will not work properly
 
 ### [Server mechanics](https://docs.gunicorn.org/en/stable/settings.html?highlight=worker_tmp_dir#worker-tmp-dir)
 `WORKER_TMP_DIR` : A directory to use for the worker heartbeat temporary file.
-By default this is set to /dev/shm to speed up the startup of workers by using a in memory file system
+By default, this is set to /dev/shm to speed up the startup of workers by using a in memory file system
 
 **default:** `/dev/shm`
 
 ### [Server socket](https://docs.gunicorn.org/en/stable/settings.html?highlight=bind#bind)
 `BIND` : The socket to bind.
 
-**default:** `0.0.0.0:80`
+**default:** `0.0.0.0:8000`

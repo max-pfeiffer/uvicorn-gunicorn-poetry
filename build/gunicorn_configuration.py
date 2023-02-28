@@ -10,7 +10,6 @@ DEFAULT_GUNICORN_CONFIG = {
     "loglevel": "info",
     "accesslog": "-",
     "errorlog": "-",
-    #   "reload": False,
     "worker_tmp_dir": "/dev/shm",
 }
 
@@ -19,14 +18,6 @@ DEFAULT_GUNICORN_CONFIG = {
 loglevel = os.getenv("LOG_LEVEL", DEFAULT_GUNICORN_CONFIG["loglevel"])
 accesslog = os.getenv("ACCESS_LOG", DEFAULT_GUNICORN_CONFIG["accesslog"])
 errorlog = os.getenv("ERROR_LOG", DEFAULT_GUNICORN_CONFIG["errorlog"])
-
-# Debugging
-# https://docs.gunicorn.org/en/stable/settings.html#debugging
-
-# There is a bug with Gunicorn reload with uvicorn workers, so this features is
-# not available any more until this bug became fixed
-# see: https://github.com/benoitc/gunicorn/issues/2339
-# reload = bool(os.getenv("RELOAD", DEFAULT_GUNICORN_CONFIG["reload"]))
 
 # Worker processes
 # https://docs.gunicorn.org/en/stable/settings.html#worker-processes
@@ -57,7 +48,6 @@ log_data = {
     "loglevel": loglevel,
     "errorlog": errorlog,
     "accesslog": accesslog,
-    #   "reload": reload,
     "worker_tmp_dir": worker_tmp_dir,
 }
 print(json.dumps(log_data))

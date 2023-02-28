@@ -1,5 +1,8 @@
+.idea
+.pytest_cache
 .venv
 .coverage
+test_coverage_reports/
 Dockerfile
 README.md
-test_coverage_reports/
+

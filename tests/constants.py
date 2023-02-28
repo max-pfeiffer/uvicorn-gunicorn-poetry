@@ -9,7 +9,6 @@ DEVELOPMENT_GUNICORN_CONFIG: dict[str, str] = {
     "loglevel": "debug",
     "accesslog": "-",
     "errorlog": "-",
-    "reload": True,
     "worker_tmp_dir": "/dev/shm",
 }
 EXPOSED_CONTAINER_PORT: str = "8000"
