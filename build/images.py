@@ -9,7 +9,6 @@ from build.constants import (
     BASE_IMAGES,
     FAST_API_MULTISTAGE_IMAGE_NAME,
     APPLICATION_SERVER_PORT,
-    OFFICIAL_PYTHON_IMAGES,
     FAST_API_SINGLESTAGE_IMAGE_NAME,
 )
 
@@ -121,10 +120,6 @@ class FastApiMultistageImage(DockerImage):
 
         buildargs: dict[str, str] = {
             "BASE_IMAGE_NAME_AND_TAG": base_image_tag,
-            "OFFICIAL_PYTHON_IMAGE": OFFICIAL_PYTHON_IMAGES[
-                target_architecture
-            ],
-            "APPLICATION_SERVER_PORT": APPLICATION_SERVER_PORT,
         }
         image: Image = self.docker_client.images.build(
             path=str(self.absolute_docker_image_directory_path),
