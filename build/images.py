@@ -1,9 +1,8 @@
 from pathlib import Path
 from typing import Optional
 
-import docker
 from docker.models.images import Image
-
+from docker.client import DockerClient
 from build.constants import (
     UVICORN_GUNICORN_POETRY_IMAGE_NAME,
     BASE_IMAGES,
@@ -14,8 +13,8 @@ from build.constants import (
 
 
 class DockerImage:
-    def __init__(self, docker_client: docker.client):
-        self.docker_client: docker.client = docker_client
+    def __init__(self, docker_client: DockerClient):
+        self.docker_client: DockerClient = docker_client
         self.absolute_module_directory_path: Path = Path(
             __file__
         ).parent.resolve()
@@ -26,7 +25,7 @@ class DockerImage:
 
 
 class UvicornGunicornPoetryImage(DockerImage):
-    def __init__(self, docker_client: docker.client):
+    def __init__(self, docker_client: DockerClient):
         super().__init__(docker_client)
         self.absolute_docker_image_directory_path: Path = (
             self.absolute_module_directory_path
@@ -57,7 +56,7 @@ class UvicornGunicornPoetryImage(DockerImage):
 
 
 class FastApiSinglestageImage(DockerImage):
-    def __init__(self, docker_client: docker.client):
+    def __init__(self, docker_client: DockerClient):
         super().__init__(docker_client)
         absolute_project_root_directory: Path = (
             self.absolute_module_directory_path.parent.resolve()
@@ -92,7 +91,7 @@ class FastApiSinglestageImage(DockerImage):
 
 
 class FastApiMultistageImage(DockerImage):
-    def __init__(self, docker_client: docker.client):
+    def __init__(self, docker_client: DockerClient):
         super().__init__(docker_client)
         absolute_project_root_directory: Path = (
             self.absolute_module_directory_path.parent.resolve()

@@ -1,5 +1,4 @@
-import os
-
+import click
 import docker
 from dotenv import load_dotenv
 
@@ -9,14 +8,28 @@ from build.constants import (
 )
 from build.images import UvicornGunicornPoetryImage
 
-environment_variables_loaded: bool = load_dotenv()
 
-docker_hub_username: str = os.getenv("DOCKER_HUB_USERNAME")
-docker_hub_password: str = os.getenv("DOCKER_HUB_PASSWORD")
-version_tag: str = os.getenv("GIT_TAG_NAME")
-
-
-def main() -> None:
+@click.command()
+@click.option(
+    "--docker-hub-username",
+    envvar="DOCKER_HUB_USERNAME",
+    help="Docker Hub username",
+)
+@click.option(
+    "--docker-hub-password",
+    envvar="DOCKER_HUB_PASSWORD",
+    help="Docker Hub password",
+)
+@click.option(
+    "--version-tag", envvar="GIT_TAG_NAME", required=True, help="Version Tag"
+)
+@click.option("--registry", envvar="REGISTRY", help="Docker registry")
+def main(
+    docker_hub_username: str,
+    docker_hub_password: str,
+    version_tag: str,
+    registry: str,
+) -> None:
     docker_client: docker.client = docker.from_env()
 
     for target_architecture in TARGET_ARCHITECTURES:
@@ -52,4 +65,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    # pylint: disable=no-value-for-parameter
     main()
