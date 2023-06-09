@@ -18,8 +18,8 @@ def uvicorn_gunicorn_poetry_image(
     target_architecture: str = request.param
 
     uvicorn_gunicorn_poetry_image: Image = UvicornGunicornPoetryImage(
-        docker_client
-    ).build(target_architecture, version=version)
+        docker_client, target_architecture, version
+    ).build()
     image_tag: str = uvicorn_gunicorn_poetry_image.tags[0]
     yield image_tag
     docker_client.images.remove(image_tag, force=True)
@@ -36,12 +36,9 @@ def fast_api_multistage_production_image(
     target: str = "production-image"
     image_version = f"{components.version}-{target}"
 
-    image: Image = FastApiMultistageImage(docker_client).build(
-        components.target_architecture,
-        target,
-        image_version,
-        uvicorn_gunicorn_poetry_image,
-    )
+    image: Image = FastApiMultistageImage(
+        docker_client, components.target_architecture, image_version
+    ).build(target, uvicorn_gunicorn_poetry_image)
     image_tag: str = image.tags[0]
     yield image_tag
     docker_client.images.remove(image_tag, force=True)
@@ -54,12 +51,12 @@ def fast_api_singlestage_image(
     components: ImageTagComponents = ImageTagComponents.create_from_tag(
         uvicorn_gunicorn_poetry_image
     )
+    target: str = "development-image"
+    image_version = f"{components.version}-{target}"
 
-    image: Image = FastApiSinglestageImage(docker_client).build(
-        components.target_architecture,
-        components.version,
-        uvicorn_gunicorn_poetry_image,
-    )
+    image: Image = FastApiSinglestageImage(
+        docker_client, components.target_architecture, image_version
+    ).build(target, uvicorn_gunicorn_poetry_image)
     image_tag: str = image.tags[0]
     yield image_tag
     docker_client.images.remove(image_tag, force=True)
