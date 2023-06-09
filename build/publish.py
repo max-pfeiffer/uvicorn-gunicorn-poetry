@@ -51,11 +51,25 @@ def main(
         # https://docs.docker.com/engine/reference/commandline/push/
         # https://docs.docker.com/engine/reference/commandline/tag/
         # https://docs.docker.com/engine/reference/commandline/image_tag/
-        docker_client.login(
-            username=docker_hub_username, password=docker_hub_password
-        )
+        if docker_hub_username and docker_hub_password:
+            login_kwargs: dict = {
+                "username": docker_hub_username,
+                "password": docker_hub_password,
+            }
+            if registry:
+                login_kwargs["registry"] = registry
+
+            docker_client.login(**login_kwargs)
+
+        if registry:
+            repository: str = (
+                f"{registry}/{new_uvicorn_gunicorn_poetry_image.image_name}"
+            )
+        else:
+            repository: str = new_uvicorn_gunicorn_poetry_image.image_name
+
         for line in docker_client.images.push(
-            UVICORN_GUNICORN_POETRY_IMAGE_NAME,
+            repository,
             tag=new_uvicorn_gunicorn_poetry_image.image_tag,
             stream=True,
             decode=True,
