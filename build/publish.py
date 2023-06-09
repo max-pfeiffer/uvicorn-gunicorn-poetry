@@ -1,6 +1,5 @@
 import click
 import docker
-from dotenv import load_dotenv
 
 from build.constants import (
     TARGET_ARCHITECTURES,
