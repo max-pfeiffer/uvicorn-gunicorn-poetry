@@ -25,6 +25,7 @@ Any feedback is highly appreciated and will be considered.
 1. Supported architectures:
    1. Python v3.9, Debian or Debian-slim
    2. Python v3.10, Debian or Debian-slim
+   3. Python v3.11, Debian or Debian-slim
 2. Poetry is available as Python package dependency management tool
 3. A virtual environment for the application and application server
 4. The application is run with [Gunicorn](https://gunicorn.org/) and Uvicorn workers
