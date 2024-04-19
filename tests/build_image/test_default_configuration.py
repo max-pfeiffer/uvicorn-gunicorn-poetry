@@ -1,11 +1,8 @@
 import json
 from time import sleep
-from uuid import uuid4
 
-import pytest
 import requests
-from docker import APIClient
-from docker.models.containers import Container
+from python_on_whales import DockerClient
 
 from build.constants import APPLICATION_SERVER_PORT
 from build.gunicorn_configuration import DEFAULT_GUNICORN_CONFIG
@@ -14,12 +11,12 @@ from tests.utils import UvicornGunicornPoetryContainerConfig
 
 
 def verify_container_config(
-    container: UvicornGunicornPoetryContainerConfig,
+    container_config: UvicornGunicornPoetryContainerConfig,
 ) -> None:
     response = requests.get(f"http://127.0.0.1:{EXPOSED_CONTAINER_PORT}")
     assert json.loads(response.text) == HELLO_WORLD
 
-    config_data = container.get_config()
+    config_data = container_config.get_config()
     assert config_data["bind"] == DEFAULT_GUNICORN_CONFIG["bind"]
     assert config_data["workers"] == DEFAULT_GUNICORN_CONFIG["workers"]
     assert config_data["timeout"] == DEFAULT_GUNICORN_CONFIG["timeout"]
@@ -37,72 +34,61 @@ def verify_container_config(
     )
 
 
-@pytest.mark.parametrize(
-    "cleaned_up_test_container", [str(uuid4())], indirect=True
-)
-def test_multistage_stage_image(
-    docker_client,
-    fast_api_multistage_production_image,
-    cleaned_up_test_container,
+def test_fast_api_singlestage_image(
+    docker_client: DockerClient,
+    fast_api_singlestage_image_reference: str,
 ) -> None:
-    test_container: Container = docker_client.containers.run(
-        fast_api_multistage_production_image,
-        name=cleaned_up_test_container,
-        ports={APPLICATION_SERVER_PORT: EXPOSED_CONTAINER_PORT},
+    """Test default configuration for single stage image.
+
+    :param docker_client:
+    :param fast_api_singlestage_image_reference:
+    :return:
+    """
+    with docker_client.container.run(
+        fast_api_singlestage_image_reference,
         detach=True,
-    )
-    uvicorn_gunicorn_container: UvicornGunicornPoetryContainerConfig = (
-        UvicornGunicornPoetryContainerConfig(test_container)
-    )
-    sleep(SLEEP_TIME)
-    verify_container_config(uvicorn_gunicorn_container)
-    test_container.stop()
+        publish=[(EXPOSED_CONTAINER_PORT, APPLICATION_SERVER_PORT)],
+    ) as container:
+        # Wait for uvicorn to come up
+        sleep(SLEEP_TIME)
 
-    # Test restarting the container
-    test_container.start()
-    sleep(SLEEP_TIME)
-    verify_container_config(uvicorn_gunicorn_container)
+        uvicorn_gunicorn_container_config: (
+            UvicornGunicornPoetryContainerConfig
+        ) = UvicornGunicornPoetryContainerConfig(container.id)
+
+        assert (
+            f"{APPLICATION_SERVER_PORT}/tcp"
+            in container.config.exposed_ports.keys()
+        )
+
+        verify_container_config(uvicorn_gunicorn_container_config)
 
 
-@pytest.mark.parametrize(
-    "cleaned_up_test_container", [str(uuid4())], indirect=True
-)
-def test_single_stage_image(
-    docker_client,
-    fast_api_singlestage_image,
-    cleaned_up_test_container,
+def test_fast_api_multistage_image(
+    docker_client: DockerClient,
+    fast_api_multistage_image_reference: str,
 ) -> None:
-    test_container: Container = docker_client.containers.run(
-        fast_api_singlestage_image,
-        name=cleaned_up_test_container,
-        ports={APPLICATION_SERVER_PORT: EXPOSED_CONTAINER_PORT},
+    """Test default configuration for multi-stage image.
+
+    :param docker_client:
+    :param fast_api_multistage_image_reference:
+    :return:
+    """
+    with docker_client.container.run(
+        fast_api_multistage_image_reference,
         detach=True,
-    )
-    uvicorn_gunicorn_container_config: UvicornGunicornPoetryContainerConfig = (
-        UvicornGunicornPoetryContainerConfig(test_container)
-    )
-    sleep(SLEEP_TIME)
-    verify_container_config(uvicorn_gunicorn_container_config)
-    test_container.stop()
+        publish=[(EXPOSED_CONTAINER_PORT, APPLICATION_SERVER_PORT)],
+    ) as container:
+        # Wait for uvicorn to come up
+        sleep(SLEEP_TIME)
 
-    # Test restarting the container
-    test_container.start()
-    sleep(SLEEP_TIME)
-    verify_container_config(uvicorn_gunicorn_container_config)
+        uvicorn_gunicorn_container_config: (
+            UvicornGunicornPoetryContainerConfig
+        ) = UvicornGunicornPoetryContainerConfig(container.id)
 
+        assert (
+            f"{APPLICATION_SERVER_PORT}/tcp"
+            in container.config.exposed_ports.keys()
+        )
 
-def test_exposed_application_server_port(
-    fast_api_multistage_production_image, fast_api_singlestage_image
-) -> None:
-    api_client = APIClient()
-    inspection_result: dict = api_client.inspect_image(
-        fast_api_multistage_production_image
-    )
-    exposed_ports: dict = inspection_result["ContainerConfig"]["ExposedPorts"]
-    assert f"{APPLICATION_SERVER_PORT}/tcp" in exposed_ports.keys()
-
-    inspection_result: dict = api_client.inspect_image(
-        fast_api_singlestage_image
-    )
-    exposed_ports: dict = inspection_result["ContainerConfig"]["ExposedPorts"]
-    assert f"{APPLICATION_SERVER_PORT}/tcp" in exposed_ports.keys()
+        verify_container_config(uvicorn_gunicorn_container_config)
