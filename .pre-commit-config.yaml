@@ -7,16 +7,6 @@ repos:
       - id: detect-private-key
       - id: check-added-large-files
   - repo: https://github.com/psf/black
-    rev: 23.3.0
+    rev: 24.4.0
     hooks:
       - id: black
-  - repo: local
-    hooks:
-      - id: pylint
-        name: pylint
-        entry: .venv/bin/pylint
-        language: system
-        types: [python]
-        args:
-          - build
-          - tests

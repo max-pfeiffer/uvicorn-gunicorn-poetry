@@ -1,13 +1,18 @@
 import json
 from dataclasses import dataclass
+from pathlib import Path
 from typing import List, Dict, Any
 
+import docker
 from docker.models.containers import Container
+from docker_image import reference
 
 
 class UvicornGunicornPoetryContainerConfig:
-    def __init__(self, container: Container):
-        self.container: Container = container
+    def __init__(self, container_id: str):
+        self.container: Container = docker.from_env().containers.get(
+            container_id
+        )
 
     def get_process_names(self) -> List[str]:
         top = self.container.top()
@@ -30,34 +35,138 @@ class UvicornGunicornPoetryContainerConfig:
 
 @dataclass
 class ImageTagComponents:
+    """Class for parsing and providing image tag components."""
+
+    registry: str
     image_name: str
+    tag: str
     version: str
-    target_architecture: str
+    python_version: str
+    os_variant: str
 
     @classmethod
-    def create_from_tag(cls, tag: str):
-        tag_parts: list[str] = tag.split(":")
-        image_name: str = tag_parts[0]
-        image_tag: str = tag_parts[1]
+    def create_from_reference(cls, tag: str):
+        """Instantiate a class using an image tag.
 
-        image_tag_parts: list[str] = image_tag.split("-")
-        target_architecture_index = [
-            index
-            for index, tag_part in enumerate(image_tag_parts)
-            if tag_part.startswith("python")
-        ][0]
+        :param tag:
+        :return:
+        """
+        ref = reference.Reference.parse(tag)
+        registry: str = ref.repository["domain"]
+        image_name: str = ref.repository["path"]
+        tag: str = ref["tag"]
 
-        version: str = "-".join(image_tag_parts[:target_architecture_index])
-        target_architecture: str = "-".join(
-            image_tag_parts[target_architecture_index:]
-        )
+        tag_parts: list[str] = tag.split("-")
+        version: str = tag_parts[0]
+        python_version: str = tag_parts[1].lstrip("python")
+        os_variant: str = "-".join(tag_parts[2:])
         return cls(
+            registry=registry,
             image_name=image_name,
+            tag=tag,
             version=version,
-            target_architecture=target_architecture,
+            python_version=python_version,
+            os_variant=os_variant,
         )
 
 
-def create_version_tag_for_example_images(version: str, target: str) -> str:
-    version_tag: str = f"{version}-{target}"
-    return version_tag
+def get_fast_api_singlestage_context() -> Path:
+    """Return Docker build context for single stage example app.
+
+    :return:
+    """
+    context: Path = (
+        Path(__file__).parent.parent.resolve()
+        / "examples"
+        / "fast_api_singlestage_build"
+    )
+    return context
+
+
+def get_fast_api_singlestage_image_reference(
+    registry: str,
+    image_version: str,
+    python_version: str,
+    os_variant: str,
+) -> str:
+    """Return image reference for single stage example app.
+
+    :param registry:
+    :param image_version:
+    :param python_version:
+    :param os_variant:
+    :return:
+    """
+    reference: str = (
+        f"{registry}/fast-api-singlestage-build:{image_version}"
+        f"-python{python_version}-{os_variant}"
+    )
+    return reference
+
+
+def get_fast_api_multistage_context() -> Path:
+    """Return Docker build context for multi-stage example app.
+
+    :return:
+    """
+    context: Path = (
+        Path(__file__).parent.parent.resolve()
+        / "examples"
+        / "fast_api_multistage_build"
+    )
+    return context
+
+
+def get_fast_api_multistage_image_reference(
+    registry: str,
+    image_version: str,
+    python_version: str,
+    os_variant: str,
+) -> str:
+    """Return image reference for multi-stage example app.
+
+    :param registry:
+    :param image_version:
+    :param python_version:
+    :param os_variant:
+    :return:
+    """
+    reference: str = (
+        f"{registry}/fast-api-multistage-build:{image_version}"
+        f"-python{python_version}-{os_variant}"
+    )
+    return reference
+
+
+def get_fast_api_multistage_with_json_logging_context() -> Path:
+    """Return Docker build context for multi-stage example app with JSON logging.
+
+    :return:
+    """
+    context: Path = (
+        Path(__file__).parent.parent.resolve()
+        / "examples"
+        / "fast_api_multistage_build_with_json_logging"
+    )
+    return context
+
+
+def get_fast_api_multistage_with_json_logging_image_reference(
+    registry: str,
+    image_version: str,
+    python_version: str,
+    os_variant: str,
+) -> str:
+    """Return image reference for multi-stage example app with JSON logging.
+
+    :param registry:
+    :param image_version:
+    :param python_version:
+    :param os_variant:
+    :return:
+    """
+    reference: str = (
+        f"{registry}/fast_api_multistage_build_with_json_logging:{image_version}"
+        f"-python{python_version}-{os_variant}"
+    )
+    return reference
