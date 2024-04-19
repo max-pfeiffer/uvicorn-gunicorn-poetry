@@ -4,6 +4,7 @@ from os import getenv
 
 import pytest
 from python_on_whales import Builder, DockerClient
+from testcontainers.registry import DockerRegistryContainer
 
 from build.constants import APPLICATION_SERVER_PORT, PLATFORMS
 from build.utils import (
@@ -12,7 +13,6 @@ from build.utils import (
     get_python_poetry_image_reference,
 )
 from tests.constants import REGISTRY_PASSWORD, REGISTRY_USERNAME
-from tests.registry_container import DockerRegistryContainer
 from tests.utils import (
     get_fast_api_multistage_context,
     get_fast_api_multistage_image_reference,

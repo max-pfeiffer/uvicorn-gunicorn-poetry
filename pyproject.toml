@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "uvicorn-gunicorn-poetry"
-version = "1.4.0"
+version = "2.2.0"
 description = "Gunicorn with Uvicorn workers for running web applications. Uses Poetry for managing dependencies and setting up a virtual environment."
 authors = ["Max Pfeiffer <max@maxpfeiffer.ch>"]
 license = "MIT"
