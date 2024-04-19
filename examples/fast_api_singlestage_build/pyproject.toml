@@ -6,7 +6,7 @@ authors = ["Max Pfeiffer <max@maxpfeiffer.ch>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.10"
 gunicorn = "22.0.0"
 uvicorn = "0.29.0"
 fastapi = "0.110.2"

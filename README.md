@@ -22,13 +22,19 @@ Any feedback is highly appreciated and will be considered.
 **GitHub Repository:** [https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry)
 
 ## Docker Image Features
-1. Supported architectures:
-   1. Python v3.9, Debian or Debian-slim
-   2. Python v3.10, Debian or Debian-slim
-   3. Python v3.11, Debian or Debian-slim
-2. Poetry is available as Python package dependency management tool
-3. A virtual environment for the application and application server
-4. The application is run with [Gunicorn](https://gunicorn.org/) and Uvicorn workers
+1. Poetry v1.8.2 is available as Python package dependency management tool
+2. A virtual environment for the application and application server
+3. The application is run with [Gunicorn](https://gunicorn.org/) and Uvicorn workers
+4. Python versions:
+    1. 3.10
+    2. 3.11
+    3. 3.12
+5. Operating system variants:
+    1. [Debian Bookworm v12.1](https://www.debian.org/releases/bookworm/)
+    2. [Debian Bookworm slim v12.1](https://www.debian.org/releases/bookworm/)
+6. Supported CPU architectures:    
+   1. linux/amd64
+   2. linux/arm64/v8
 
 ## Usage
 It just provides a platform that you can use to build upon your own multistage builds. So it consequently does not contain an
@@ -59,12 +65,12 @@ The application and test structure needs to be like that:
 ```
 Please be aware that you need to provide a pyproject.toml file to specify your Python package dependencies for Poetry and configure
 dependencies like Pytest. Poetry dependencies must at least contain the following to work:
-* python = "^3.9"
-* gunicorn = "20.1.0"
-* uvicorn = "0.18.3"
+* python = "^3.10"
+* gunicorn = "22.0.0"
+* uvicorn = "0.29.0"
 
 If your application uses FastAPI framework this needs to be added as well:
-* fastapi = "0.85.0"
+* fastapi = "0.110.2"
 
 **IMPORTANT:** make sure you have a [.dockerignore file](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/blob/master/examples/fast_api_multistage_build/.dockerignore)
 in your application root which excludes your local virtual environment in .venv! Otherwise, you will have an issue activating that virtual
