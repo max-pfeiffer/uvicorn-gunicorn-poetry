@@ -28,7 +28,6 @@ testcontainers = "4.4.0"
 
 # https://docs.pytest.org/en/latest/reference/customize.html
 [tool.pytest.ini_options]
-addopts = "--ignore=tests/functionality/test_worker_reload.py"
 testpaths = [
     "tests",
 ]

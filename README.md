@@ -1,4 +1,4 @@
-[![codecov](https://codecov.io/gh/max-pfeiffer/uvicorn-gunicorn-poetry/branch/main/graph/badge.svg?token=ZRUKVNP3I5)](https://codecov.io/gh/max-pfeiffer/uvicorn-gunicorn-poetry)
+[![codecov](https://codecov.io/gh/max-pfeiffer/uvicorn-gunicorn-poetry/graph/badge.svg?token=ZRUKVNP3I5)](https://codecov.io/gh/max-pfeiffer/uvicorn-gunicorn-poetry)
 ![pipeline workflow](https://github.com/max-pfeiffer/uvicorn-gunicorn-poetry/actions/workflows/pipeline.yml/badge.svg)
 ![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/pfeiffermax/uvicorn-gunicorn-poetry?sort=semver)
 ![Docker Pulls](https://img.shields.io/docker/pulls/pfeiffermax/uvicorn-gunicorn-poetry)

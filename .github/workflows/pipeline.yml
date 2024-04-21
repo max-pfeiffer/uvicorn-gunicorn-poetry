@@ -4,7 +4,7 @@ on: push
 
 jobs:
   code-quality:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -33,7 +33,7 @@ jobs:
 
   run-build-image-tests:
     needs: code-quality
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -80,7 +80,7 @@ jobs:
 
   run-publish-image-tests:
     needs: code-quality
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -129,7 +129,7 @@ jobs:
     needs:
       - run-build-image-tests
       - run-publish-image-tests
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -148,7 +148,7 @@ jobs:
   publish-all-images:
     needs: upload-test-coverage-reports
     if: startsWith(github.ref, 'refs/tags/')
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
